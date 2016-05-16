@@ -1,0 +1,44 @@
+{
+  "name": "block-party",
+  "version": "1.0.0",
+  "description": "Block Party. The Game!",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "build": "./node_modules/webpack/bin/webpack.js",
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamhundley/block_party.git"
+  },
+  "author": "Nick Weiland & Adam Hundley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adamhundley/block_party/issues"
+  },
+  "homepage": "https://github.com/adamhundley/block_party",
+  "devDependencies": {
+    "babel": "^5.8.3",
+    "babel-core": "^5.7.4",
+    "babel-loader": "^5.3.2",
+    "babel-plugin-react-transform": "^1.1.1",
+    "chai": "^3.2.0",
+    "css-loader": "^0.15.5",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.0",
+    "redbox-react": "^1.0.1",
+    "mocha": "^2.2.5",
+    "mocha-loader": "^0.7.1",
+    "node-libs-browser": "^0.5.2",
+    "node-sass": "^3.2.0",
+    "sass-loader": "^1.0.2",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.10.1",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "dependencies": {
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  }
+}
