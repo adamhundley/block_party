@@ -13,7 +13,7 @@ export default class PipeEntry {
   }
 
   destroy(blockParty){
-    if(this.x < 0) {
+    if(this.x < 0 - this.width) {
       blockParty.pipeEntries.shift();
       blockParty.pipeEntries[0].x = blockParty.pipeEntries[0].x - 4;
     }
