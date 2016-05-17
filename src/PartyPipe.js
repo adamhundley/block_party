@@ -14,7 +14,7 @@ export default class PartyPipe {
   passPartySquare(blockParty){
     let partySquare = blockParty.partySquare[0];
     if(this.x + this.width < partySquare.x) {
-      this.color = '#ffffff'
+      this.color = '#ffffff';
     }
   }
 

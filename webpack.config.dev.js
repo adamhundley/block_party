@@ -1,15 +1,14 @@
-const path = require('path');
+var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-  entry: {
-    main: ['webpack-hot-middleware/client', './lib/index'],
-    test: "mocha!./test/index.js"
-  },
+  entry: [
+    'webpack-hot-middleware/client', './src/index'
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '/static/'
   },
   plugins: [
@@ -23,7 +22,7 @@ module.exports = {
     },{
       test: /\.js$/,
       loaders: ['babel'],
-      include: path.join(__dirname, 'lib')
+      include: path.join(__dirname, 'src')
     }]
   }
 };

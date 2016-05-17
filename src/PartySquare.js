@@ -8,6 +8,7 @@ export default class PartySquare {
     this.gravity = true;
     this.defaultVelocity = 5;
     this.velocity = 5;
+    this.score = 0;
   }
 
   respondToUser(key){
@@ -27,6 +28,20 @@ export default class PartySquare {
     }
   }
 
+  checkPipeEntry(state, blockParty){
+    let entryTop = blockParty.pipeEntries[1].y;
+    let entryBottom = blockParty.pipeEntries[1].y + blockParty.pipeEntries[1].height;
+
+    if(this.x + this.width > blockParty.partyPipes[1].x){
+      if(this.y > entryTop && this.y + this.height < entryBottom){
+        this.score++;
+        console.log(this.score);
+      } else {
+        state.inGame = false;
+      }
+    }
+  }
+
   active(state){
     if(this.gravity) {
       this.gravityMovement(state, this.y += this.velocity);
@@ -35,7 +50,7 @@ export default class PartySquare {
     }
   }
 
-  render(state){
+  render(state, blockParty){
     if(this.y > state.screen.height - this.height){
       if(!this.gravity) {this.velocity = this.defaultVelocity;}
       this.gravity = false;
@@ -48,6 +63,7 @@ export default class PartySquare {
     } else {
       this.active(state);
     }
+    this.checkPipeEntry(state, blockParty);
   }
 
   gravityMovement(state, newY){

@@ -4,7 +4,7 @@ export default class PipeEntry {
   constructor(args) {
     this.partyPipe = args.partyPipe;
     this.maxHeight = 400;
-    this.height = getRandomInt(100, this.maxHeight);
+    this.height = getRandomInt(200, this.maxHeight);
     this.width = this.partyPipe.width;
     this.x = args.state.screen.width;
     this.y = getRandomInt(0, args.state.screen.height - 100);
@@ -13,7 +13,7 @@ export default class PipeEntry {
   }
 
   destroy(blockParty){
-    if(this.x < 0) {
+    if(this.x < 0 - this.width) {
       blockParty.pipeEntries.shift();
       blockParty.pipeEntries[0].x = blockParty.pipeEntries[0].x - 4;
     }
