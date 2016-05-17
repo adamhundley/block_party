@@ -1,14 +1,15 @@
-const path = require('path');
+var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
   entry: [
-    './src/index'
+    './lib/index'
   ],
   output: {
-    path: __dirname,
-    filename: "[name].bundle.js"
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -24,13 +25,13 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.css$/, loader: "style!css" },
-      { test: /\.scss$/, loader: "style!css!sass" }
-    ]
-  },
-  resolve: {
-    extensions: ['', '.js', '.json', '.scss', '.css']
+    loaders: [{
+      test: /\.css$/,
+      loader: "style-loader!css-loader"
+    },{
+      test: /\.js$/,
+      loaders: ['babel'],
+      include: path.join(__dirname, 'lib')
+    }]
   }
 };

@@ -4,26 +4,26 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: {
-    main: ["./lib/index.js", "webpack-hot-middleware/client"],
+    main: ['webpack-hot-middleware/client', './lib/index'],
     test: "mocha!./test/index.js"
   },
   output: {
-    path: __dirname,
-    filename: "[name].bundle.js"
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/static/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.css$/, loader: "style!css" },
-      { test: /\.scss$/, loader: "style!css!sass" }
-    ]
-  },
-  resolve: {
-    extensions: ['', '.js', '.json', '.scss', '.css']
+    loaders: [{
+      test: /\.css$/,
+      loader: "style-loader!css-loader"
+    },{
+      test: /\.js$/,
+      loaders: ['babel'],
+      include: path.join(__dirname, 'lib')
+    }]
   }
 };
