@@ -13,7 +13,8 @@ export class BlockParty extends Component {
         ratio: window.devicePixelRatio || 1,
       },
       context: null,
-      inGame: false
+      inGame: false,
+      currentScore: 0
     };
     this.partySquare =[];
     this.partyPipes = [];
@@ -52,6 +53,10 @@ export class BlockParty extends Component {
     }, 2000);
   }
 
+  addScore(points){
+    this.currentScore += points;
+  }
+
   update() {
     const context = this.state.context;
     context.save();
@@ -60,11 +65,9 @@ export class BlockParty extends Component {
     this.updateObjects(this.partyPipes, 'partyPipes');
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
+    this.addScore(this.partySquare.score);
     context.restore();
 
-    if(this.state.inGame === false){
-      console.log('Game Over!');
-    }
     // Next frame
     requestAnimationFrame(() => {this.update();});
   }
@@ -144,6 +147,12 @@ export class BlockParty extends Component {
     return (
       <div>
         { endgame }
+      <span className="score current-score" >Score: {this.state.currentScore}</span>
+      <span className="score top-score" >Top Score: {this.state.topScore}</span>
+      <span className="controls" >
+        Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
+        Use [SPACE] to SHOOT
+      </span>
         <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}

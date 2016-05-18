@@ -20,6 +20,7 @@ export default class PartySquare {
     this.delete = true;
     this.onDie();
   }
+
   respondToUser(key){
     if(key === 38 || key === 40){
       this.manageGravity(key);
