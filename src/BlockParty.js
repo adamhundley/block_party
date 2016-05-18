@@ -53,7 +53,7 @@ export class BlockParty extends Component {
     context.restore();
 
     if(this.state.inGame === false){
-      console.log('Game Over!');  
+      console.log('Game Over!');
     }
     // Next frame
     requestAnimationFrame(() => {this.update();});

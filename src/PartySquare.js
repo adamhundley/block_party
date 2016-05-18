@@ -1,3 +1,5 @@
+import { colorsSample } from './helpers';
+
 export default class PartySquare {
   constructor(args){
     this.x = args.x;
@@ -6,10 +8,11 @@ export default class PartySquare {
     this.width = this.height;
     this.create = args.create;
     this.gravity = true;
-    this.defaultVelocity = 5;
-    this.velocity = 5;
+    this.defaultVelocity = 7;
+    this.velocity = 7;
     this.score = 0;
     this.currentPipe = 0;
+    this.color = colorsSample();
   }
 
   respondToUser(key){
@@ -24,7 +27,7 @@ export default class PartySquare {
 
   manageGravity(key){
     if(key === 38 && this.gravity || key === 40 && !this.gravity ){
-      this.velocity = -this.velocity * 0.75;
+      this.velocity = -this.velocity * 0.85;
       setTimeout(this.reverseVelocity.bind(this), 200);
     }
   }
@@ -72,7 +75,7 @@ export default class PartySquare {
   }
 
   gravityMovement(state, newY){
-    state.context.fillStyle = "#000000";
+    state.context.fillStyle = this.color;
     state.context.fillRect(this.x, newY, this.width, this.height);
   }
 }

@@ -2,12 +2,14 @@ import { colorsSample, getRandomInt } from './helpers';
 
 export default class PipeEntry {
   constructor(args) {
+    this.margin = 65;
     this.partyPipe = args.partyPipe;
-    this.maxHeight = 200;
-    this.height = getRandomInt(200, this.maxHeight);
-    this.width = this.partyPipe.width;
+    this.maxHeight = args.state.screen.height*.75;
+    this.minHeight = args.state.screen.height/5;
+    this.height = getRandomInt(this.minHeight, this.maxHeight);
     this.x = args.state.screen.width;
-    this.y = getRandomInt(100, 100);
+    this.y = getRandomInt(this.margin, args.state.screen.height - (this.margin + this.height));
+    this.width = this.partyPipe.width;
     this.color = colorsSample(this.partyPipe.color);
     this.speed = this.partyPipe.speed;
   }
