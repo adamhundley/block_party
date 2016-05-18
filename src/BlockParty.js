@@ -23,7 +23,7 @@ export class BlockParty extends Component {
 
   gameOver(){
     this.setState({
-      inGame: false,
+      inGame: false
     });
   }
 
@@ -31,6 +31,8 @@ export class BlockParty extends Component {
     this.setState({
       inGame: true
     });
+
+    clearInterval(this.pipeInterval);
     this.partyPipes = [];
     this.pipeEntries = [];
     this.pipeCount = 0;
@@ -43,13 +45,14 @@ export class BlockParty extends Component {
     });
 
     this.createObject(partySquare, 'partySquare');
-    const scope = this;
 
-    setInterval(function(){
-      scope.createPartyPipe(scope.state);
-      scope.createPipeEntry(scope.state, scope.partyPipes[scope.partyPipes.length -1]);
-      scope.pipeCount += 1;
-    }, 2000);
+    let pipeIntervals = function(){
+      this.createPartyPipe(this.state);
+      this.createPipeEntry(this.state, this.partyPipes[this.partyPipes.length -1]);
+      this.pipeCount += 1;
+    }.bind(this);
+
+    this.pipeInterval = setInterval(function(){pipeIntervals();}, 2000);
   }
 
   update() {
@@ -57,14 +60,12 @@ export class BlockParty extends Component {
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
+
     this.updateObjects(this.partyPipes, 'partyPipes');
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
-    context.restore();
 
-    if(this.state.inGame === false){
-      console.log('Game Over!');
-    }
+    context.restore();
     // Next frame
     requestAnimationFrame(() => {this.update();});
   }
@@ -133,7 +134,7 @@ export class BlockParty extends Component {
     if(!this.state.inGame){
       endgame = (
         <div className="endgame">
-          <p>Game over, man!</p>
+          <p>Game over, bro!  </p>
           <button
             onClick={ this.startGame.bind(this) }>
             try again?
