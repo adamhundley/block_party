@@ -3,11 +3,11 @@ import { colorsSample, getRandomInt } from './helpers';
 export default class PipeEntry {
   constructor(args) {
     this.partyPipe = args.partyPipe;
-    this.maxHeight = 400;
+    this.maxHeight = 200;
     this.height = getRandomInt(200, this.maxHeight);
     this.width = this.partyPipe.width;
     this.x = args.state.screen.width;
-    this.y = getRandomInt(0, args.state.screen.height - 100);
+    this.y = getRandomInt(100, 100);
     this.color = colorsSample(this.partyPipe.color);
     this.speed = this.partyPipe.speed;
   }
@@ -22,6 +22,6 @@ export default class PipeEntry {
   render(state, blockParty){
     state.context.fillStyle = this.color;
     state.context.fillRect(this.x -= this.speed, this.y, this.width, this.height);
-    this.destroy(blockParty);
+    // this.destroy(blockParty);
   }
 }
