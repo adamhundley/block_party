@@ -1,4 +1,4 @@
-import { colorsSample } from './helpers';
+import { colorsSample, colorCollection } from './helpers';
 
 export default class PartySquare {
   constructor(args){
@@ -17,13 +17,21 @@ export default class PartySquare {
 
   respondToUser(key){
     if(key === 38 || key === 40){
-      this.manageGravity(key) ;
-    }
+      this.manageGravity(key);
+    } else if (key === 65) {
+      this.color = colorCollection()[0];
+    } else if (key === 83) {
+      this.color = colorCollection()[1];
+    } else if (key === 68) {
+      this.color = colorCollection()[2];
+    } else if (key === 70) {
+      this.color = colorCollection()[3];
+    } 
   }
 
   reverseVelocity(){
     this.velocity = this.defaultVelocity;
-  }
+  };
 
   manageGravity(key){
     if(key === 38 && this.gravity || key === 40 && !this.gravity ){
@@ -36,8 +44,8 @@ export default class PartySquare {
     let entryTop = blockParty.pipeEntries[this.currentPipe].y;
     let entryBottom = blockParty.pipeEntries[this.currentPipe].y + blockParty.pipeEntries[this.currentPipe].height;
 
-    if(this.x + this.width > blockParty.partyPipes[this.currentPipe].x && this.x < blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width){
-      if(this.y > entryTop && this.y + this.height < entryBottom){
+    if(this.x + this.width > blockParty.partyPipes[this.currentPipe].x && this.x < blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width ){
+      if(this.y > entryTop && this.y + this.height < entryBottom && this.color === blockParty.pipeEntries[this.currentPipe].color){
         this.score++;
         console.log(this.score);
       } else {
