@@ -13,8 +13,13 @@ export default class PartySquare {
     this.score = 0;
     this.currentPipe = 0;
     this.color = colorsSample();
+    this.onDie = args.onDie;
   }
 
+  destroy(){
+    this.delete = true;
+    this.onDie();
+  }
   respondToUser(key){
     if(key === 38 || key === 40){
       this.manageGravity(key);
@@ -26,7 +31,7 @@ export default class PartySquare {
       this.color = colorCollection()[2];
     } else if (key === 70) {
       this.color = colorCollection()[3];
-    } 
+    }
   }
 
   reverseVelocity(){
@@ -49,7 +54,8 @@ export default class PartySquare {
         this.score++;
         console.log(this.score);
       } else {
-        state.inGame = false;
+        // state.inGame = false;
+        this.destroy();
       }
       this.currentPipe++;
       console.log(this.currentPipe);

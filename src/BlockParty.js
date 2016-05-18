@@ -21,15 +21,25 @@ export class BlockParty extends Component {
     this.pipeCount = 0;
   }
 
+  gameOver(){
+    this.setState({
+      inGame: false,
+    });
+  }
+
   startGame(){
     this.setState({
       inGame: true
     });
+    this.partyPipes = [];
+    this.pipeEntries = [];
+    this.pipeCount = 0;
 
     let partySquare = new PartySquare({
       x: this.state.screen.width/3,
       y: this.state.screen.height/2,
-      create: this.createObject.bind(this)
+      create: this.createObject.bind(this),
+      onDie: this.gameOver.bind(this)
     });
 
     this.createObject(partySquare, 'partySquare');
@@ -118,8 +128,22 @@ export class BlockParty extends Component {
 
 
   render() {
+    let endgame;
+
+    if(!this.state.inGame){
+      endgame = (
+        <div className="endgame">
+          <p>Game over, man!</p>
+          <button
+            onClick={ this.startGame.bind(this) }>
+            try again?
+          </button>
+        </div>
+      )
+    }
     return (
       <div>
+        { endgame }
         <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
