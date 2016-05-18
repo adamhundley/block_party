@@ -13,13 +13,13 @@ export default class PipeEntry {
     this.color = colorsSample(this.partyPipe.color);
     this.speed = this.partyPipe.speed;
   }
-
-  destroy(blockParty){
-    if(this.x < 0 - this.width) {
-      blockParty.pipeEntries.shift();
-      blockParty.pipeEntries[0].x = blockParty.pipeEntries[0].x - 4;
-    }
-  }
+  //
+  // destroy(blockParty){
+  //   if(this.x < 0 - this.width) {
+  //     blockParty.pipeEntries.shift();
+  //     blockParty.pipeEntries[0].x = blockParty.pipeEntries[0].x - 4;
+  //   }
+  // }
 
   render(state, blockParty){
     state.context.fillStyle = this.color;
