@@ -1,7 +1,8 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: 'PT Mono', serif;
+  font-family: monospace;
+  font-weight: 200;
   color: #ffffff;
 }
 canvas {
@@ -26,7 +27,7 @@ canvas {
   position: absolute;
   top: 15px;
   z-index: 1;
-  font-size: 20px;
+  font-size: 30px;
 }
 .controls {
   display: block;
@@ -35,7 +36,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 1;
-  font-size: 11px;
+  font-size: 15px;
   text-align: center;
   line-height: 1.6;
 }

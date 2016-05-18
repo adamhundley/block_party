@@ -10,9 +10,9 @@ export default class PartySquare {
     this.gravity = true;
     this.initialVelocity = 4;
     this.acceleration = 1.01;
-    this.bounceFactor = -5;
+    this.bounceFactor = -10;
     this.velocity = 4;
-    this.score = 0;
+    this.points = 0;
     this.currentPipe = 0;
     this.color = colorsSample();
     this.onDie = args.onDie;
@@ -29,16 +29,17 @@ export default class PartySquare {
 
     if(this.x + this.width > blockParty.partyPipes[this.currentPipe].x && this.x < blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width ){
       if(this.y > entryTop && this.y + this.height < entryBottom && this.color === blockParty.pipeEntries[this.currentPipe].color){
-        this.score++;
-        console.log(this.score);
+        this.points++;
       } else {
-        // state.inGame = false;
         this.destroy();
       }
-      this.currentPipe++;
-      console.log(this.currentPipe);
     }
-  }
+
+    if(this.x > blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width){
+        this.currentPipe++;
+        this.points = 0;
+      }
+    }
 
   respondToUser(key){
     if(key === 38 || key === 40){

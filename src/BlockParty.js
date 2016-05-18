@@ -14,7 +14,8 @@ export class BlockParty extends Component {
       },
       context: null,
       inGame: false,
-      currentScore: 0
+      currentScore: 0,
+      topScore: localStorage['topscore'] || 0
     };
     this.partySquare =[];
     this.partyPipes = [];
@@ -24,18 +25,27 @@ export class BlockParty extends Component {
 
   gameOver(){
     this.setState({
-      inGame: false
+      inGame: false,
     });
+
+    if(this.state.currentScore > this.state.topScore){
+      this.setState({
+        topScore: this.state.currentScore,
+      });
+      localStorage['topscore'] = this.state.currentScore;
+    }
   }
 
   startGame(){
     this.setState({
-      inGame: true
+      inGame: true,
+      currentScore: 0
     });
 
     clearInterval(this.pipeInterval);
     this.partyPipes = [];
     this.pipeEntries = [];
+    this.pipeCount = 0;
     this.pipeCount = 0;
 
     let partySquare = new PartySquare({
@@ -57,11 +67,9 @@ export class BlockParty extends Component {
   }
 
   addScore(points){
-    if(this.state.inGame){
-      this.setState({
-        currentScore: this.state.currentScore + points,
-      });
-    }
+    this.setState({
+      currentScore: this.state.currentScore + points,
+    });
   }
 
   update() {
@@ -73,7 +81,9 @@ export class BlockParty extends Component {
     this.updateObjects(this.partyPipes, 'partyPipes');
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
-    this.addScore(this.partySquare[0].score);
+    if(this.state.inGame){
+      this.addScore(this.partySquare[0].points);
+    }
 
     context.restore();
 
@@ -92,7 +102,9 @@ export class BlockParty extends Component {
   }
 
   handleKeys(value, e){
-    this.partySquare[0].respondToUser(e.keyCode);
+    if(this.state.inGame){
+      this.partySquare[0].respondToUser(e.keyCode);
+    }
   }
 
   componentDidMount() {
@@ -141,26 +153,36 @@ export class BlockParty extends Component {
 
   render() {
     let endgame;
+    let message;
+
 
     if(!this.state.inGame){
+      if(this.state.currentScore >= parseInt(this.state.topScore)){
+        message = `WOW! NEW TOP SCORE! ${this.state.currentScore}`;
+      } else {
+        message = `Score: ${this.state.currentScore}`;
+      }
+
       endgame = (
         <div className="endgame">
-          <p>Game over, bro!  </p>
+          <h2>Game over.</h2>
+          <h1>{message}</h1>
           <button
             onClick={ this.startGame.bind(this) }>
-            try again?
+            try again
           </button>
         </div>
       )
     }
+
     return (
       <div>
         { endgame }
       <span className="score current-score" >Score: {this.state.currentScore}</span>
       <span className="score top-score" >Top Score: {this.state.topScore}</span>
       <span className="controls" >
-        Use [A][S][W][D] to CHANGE COLORS<br/>
-      Use [←][↑][↓][→] to MOVE
+        Use [←][↑][↓][→] to MOVE<br/>
+        Use [A][S][D][F] to CHANGE COLORS
       </span>
         <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
