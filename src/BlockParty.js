@@ -57,7 +57,11 @@ export class BlockParty extends Component {
   }
 
   addScore(points){
-    this.currentScore += points;
+    if(this.state.inGame){
+      this.setState({
+        currentScore: this.state.currentScore + points,
+      });
+    }
   }
 
   update() {
@@ -69,7 +73,8 @@ export class BlockParty extends Component {
     this.updateObjects(this.partyPipes, 'partyPipes');
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
-    this.addScore(this.partySquare.score);
+    this.addScore(this.partySquare[0].score);
+
     context.restore();
 
     // Next frame
@@ -154,8 +159,8 @@ export class BlockParty extends Component {
       <span className="score current-score" >Score: {this.state.currentScore}</span>
       <span className="score top-score" >Top Score: {this.state.topScore}</span>
       <span className="controls" >
-        Use [A][S][W][D] or [←][↑][↓][→] to MOVE<br/>
-        Use [SPACE] to SHOOT
+        Use [A][S][W][D] to CHANGE COLORS<br/>
+      Use [←][↑][↓][→] to MOVE
       </span>
         <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
