@@ -18,6 +18,7 @@ export class BlockParty extends Component {
     this.partySquare =[];
     this.partyPipes = [];
     this.pipeEntries = [];
+    this.pipeCount = 0;
   }
 
   startGame(){
@@ -37,6 +38,7 @@ export class BlockParty extends Component {
     setInterval(function(){
       scope.createPartyPipe(scope.state);
       scope.createPipeEntry(scope.state, scope.partyPipes[scope.partyPipes.length -1]);
+      scope.pipeCount += 1;
     }, 2000);
   }
 
@@ -49,8 +51,9 @@ export class BlockParty extends Component {
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
     context.restore();
+
     if(this.state.inGame === false){
-      console.log('Game Over!');
+      console.log('Game Over!');  
     }
     // Next frame
     requestAnimationFrame(() => {this.update();});
