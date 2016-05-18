@@ -32,12 +32,16 @@ export default class PartySquare {
       this.color = colorCollection()[2];
     } else if (key === 70) {
       this.color = colorCollection()[3];
+    } else if (key === 37) {
+      this.x -= 5;
+    } else if (key === 39) {
+      this.x += 5;
     }
   }
 
   reverseVelocity(){
     this.velocity = this.defaultVelocity;
-  };
+  }
 
   manageGravity(key){
     if(key === 38 && this.gravity || key === 40 && !this.gravity ){
@@ -53,13 +57,15 @@ export default class PartySquare {
     if(this.x + this.width > blockParty.partyPipes[this.currentPipe].x && this.x < blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width ){
       if(this.y > entryTop && this.y + this.height < entryBottom && this.color === blockParty.pipeEntries[this.currentPipe].color){
         this.score++;
-        console.log(this.score);
+        console.log(this.score + ' points');
       } else {
-        // state.inGame = false;
         this.destroy();
       }
+    }
+
+    if(this.x > blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width){
       this.currentPipe++;
-      console.log(this.currentPipe);
+      console.log(this.currentPipe + ' pipe');
     }
   }
 
