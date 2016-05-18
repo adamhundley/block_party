@@ -3,9 +3,12 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-  entry: [
-    'webpack-hot-middleware/client', './src/index'
-  ],
+  entry: {
+    main: [
+      'webpack-hot-middleware/client', './src/index'
+    ],
+    test: "mocha!./test/index.js"
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].bundle.js',
