@@ -86,7 +86,7 @@ export default class PartySquare {
   };
 
   atVerticalLimit(screen) {
-    return this.atUpperBound() || this.atLowerBound()screen;
+    return this.atUpperBound() || this.atLowerBound(screen);
   }
 
   atUpperBound() {
