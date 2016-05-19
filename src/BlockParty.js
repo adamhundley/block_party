@@ -40,6 +40,7 @@ export class BlockParty extends Component {
     });
 
     clearInterval(this.pipeInterval);
+
     this.setPipes();
     let partySquare = this.createPartySquare();
     this.createObject(partySquare, 'partySquare');

@@ -28,7 +28,7 @@ export default class PartySquare {
   }
 
   move(state){
-    motion.managePerimeterCollision(state, this)
+    motion.managePerimeterCollision(state, this);
     motion.resetVelocity(this);
     motion.accelerate(state, this);
     this.draw(state);
@@ -47,7 +47,7 @@ export default class PartySquare {
   respondToUser(key, state){
     if(key === 38 || key === 40){
       motion.jetPack(key, this);
-    } else if(colorCollection().indexOf(key) != 0){
+    } else if(colorCollection().indexOf(key) !== 0){
       colorManager.changeSquareColor(key, state, this);
     }
   }
@@ -55,12 +55,12 @@ export default class PartySquare {
   checkPipeEntry(blockParty){
     let currentPipe = blockParty.pipeEntries[this.currentPipeIndex];
     let pipeCleaner = new PipeCleaner(currentPipe);
-    if(this.insidePipe(pipeCleaner)){this.travelThroughPipe(pipeCleaner)}
+    if(this.insidePipe(pipeCleaner)){this.travelThroughPipe(pipeCleaner);}
     this.exitPipe(pipeCleaner);
   }
 
   insidePipe(pipeCleaner) {
-    return this.x + this.width > pipeCleaner.entranceX && this.x < pipeCleaner.exitX
+    return this.x + this.width > pipeCleaner.entranceX && this.x < pipeCleaner.exitX;
   }
 
   travelThroughPipe(pipeCleaner) {
