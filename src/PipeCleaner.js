@@ -21,19 +21,19 @@ export default class PipeCleaner {
 
   pipeEntranceX(pipe){
     if (pipe) {
-      return pipe.x
+      return pipe.x;
     }
   }
 
   pipeExitX(pipe){
     if (pipe) {
-      return pipe.x + pipe.width
+      return pipe.x + pipe.width;
     }
   }
 
   pipeColor(pipe){
     if (pipe) {
-      return pipe.color
+      return pipe.color;
     }
   }
 }
