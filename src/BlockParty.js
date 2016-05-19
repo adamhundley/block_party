@@ -51,7 +51,6 @@ export class BlockParty extends Component {
     let partySquare = new PartySquare({
       x: this.state.screen.width/3,
       y: this.state.screen.height/2,
-      create: this.createObject.bind(this),
       onDie: this.gameOver.bind(this)
     });
 

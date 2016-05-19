@@ -6,7 +6,6 @@ export default class PartySquare {
     this.y = args.y;
     this.height = args.y/12;
     this.width = this.height;
-    this.create = args.create;
     this.gravity = true;
     this.initialVelocity = 4;
     this.acceleration = 1.01;
@@ -74,7 +73,7 @@ export default class PartySquare {
 
   resetVelocity(){
     this.velocity = this.initialVelocity;
-  };
+  }
 
   manageGravity(key){
     if(key === 38 && this.gravity || key === 40 && !this.gravity ){

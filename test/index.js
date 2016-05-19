@@ -1,0 +1,1 @@
+require('./partySquare-test.js');
