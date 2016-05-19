@@ -8,10 +8,10 @@ export default class PartySquare {
     this.width = this.height;
     this.create = args.create;
     this.gravity = true;
-    this.initialVelocity = 4;
+    this.initialVelocity = 5;
     this.acceleration = 1.01;
-    this.bounceFactor = -10;
-    this.velocity = 4;
+    this.jetAcceleration = 1.003;
+    this.velocity = 5;
     this.points = 0;
     this.currentPipe = 0;
     this.color = colorsSample();
@@ -26,10 +26,12 @@ export default class PartySquare {
   }
 
   move(state){
-    if(this.atVerticalLimit(state.screen)){
-      this.resetVelocity();
-      this.toggleGravity();
+    if(this.atLowerBound(state.screen)){
+      this.gravity = false;
+    } else if (this.atUpperBound()) {
+      this.gravity = true;
     }
+    this.resetVelocity();
     this.accelerate(state);
     this.draw(state);
   }
@@ -86,7 +88,7 @@ export default class PartySquare {
   };
 
   atVerticalLimit(screen) {
-    return this.atUpperBound() || this.atLowerBound(screen);
+    return this.atUpperBound() || this.atLowerBound();
   }
 
   atUpperBound() {
@@ -114,9 +116,13 @@ export default class PartySquare {
   }
 
   jetPack(key){
-    if(key === 38 && this.gravity || key === 40 && !this.gravity ){
-      this.velocity = this.bounceFactor;
-      setTimeout(this.resetVelocity.bind(this), 200);
+    this.toggleGravity();
+    if(key === 38 && this.gravity){
+      this.y -= (this.velocity *= this.jetAcceleration);
+    } else if  (key === 40 && !this.gravity) {
+      this.y += (this.velocity *= this.jetAcceleration);
     }
+    setTimeout(this.resetVelocity.bind(this), 200);
+    setTimeout(this.toggleGravity.bind(this), 200);
   }
 }
