@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PartySquare from './PartySquare';
 import PartyPipe from './PartyPipe';
 import PipeEntry from './PipeEntry';
+import LevelManager from './LevelManager';
 
 export class BlockParty extends Component {
   constructor(){
@@ -21,6 +22,7 @@ export class BlockParty extends Component {
     this.partyPipes = [];
     this.pipeEntries = [];
     this.pipeCount = 0;
+    this.levelManager = new LevelManager();
   }
 
   componentDidMount() {
@@ -51,7 +53,7 @@ export class BlockParty extends Component {
       this.pipeCount += 1;
     }.bind(this);
 
-    this.pipeInterval = setInterval(function(){pipeIntervals();}, 2000);
+    this.pipeInterval = setInterval(function(){pipeIntervals();}, 3000);
   }
 
   update() {
@@ -63,6 +65,7 @@ export class BlockParty extends Component {
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
     if(this.state.inGame){this.addScore(this.partySquare[0].points);}
+    this.manageLevelObjects(this.state);
     context.restore();
     // Next frame
     requestAnimationFrame(() => {this.update();});
@@ -83,16 +86,13 @@ export class BlockParty extends Component {
   }
 
   createPartyPipe(state){
-    let partyPipe = new PartyPipe({
-      create: this.createObject.bind(this),
-      state: state
-    });
+    let partyPipe = this.levelManager.createObject(state, 'PartyPipe');
+
     this.createObject(partyPipe, 'partyPipes');
   }
 
   createPipeEntry(state, partyPipe){
     let pipeEntry = new PipeEntry({
-      create: this.createObject.bind(this),
       state: state,
       partyPipe: partyPipe
     });
@@ -127,6 +127,11 @@ export class BlockParty extends Component {
       currentScore: this.state.currentScore + points,
     });
   }
+
+  manageLevelObjects(state){
+    this.levelManager.manageObjects(state);
+  }
+
 
   updateTopScore() {
     if(this.state.currentScore > this.state.topScore){
