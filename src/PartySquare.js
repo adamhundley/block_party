@@ -18,6 +18,27 @@ export default class PartySquare {
     this.onDie = args.onDie;
   }
 
+  render(state, blockParty){
+    this.move(state);
+    if(blockParty.partyPipes.length > 0){
+      this.checkPipeEntry(state, blockParty);
+    }
+  }
+
+  move(state){
+    if(this.atVerticalLimit(state.screen)){
+      this.resetVelocity();
+      this.toggleGravity();
+    }
+    this.accelerate(state);
+    this.draw(state);
+  }
+
+  draw(state){
+    state.context.fillStyle = this.color;
+    state.context.fillRect(this.x, this.y, this.width, this.height);
+  }
+
   destroy(){
     this.delete = true;
     this.onDie();
@@ -43,7 +64,7 @@ export default class PartySquare {
 
   respondToUser(key){
     if(key === 38 || key === 40){
-      this.manageGravity(key);
+      this.jetPack(key);
     } else if (key === 65) {
       this.color = colorCollection()[0];
     } else if (key === 83) {
@@ -56,54 +77,46 @@ export default class PartySquare {
   }
 
   //gravity
-  active(state){
-    if(this.gravity) {
-      this.accelerateDown(state);
-    } else {
-      this.accelerateUp(state);
-    }
-  }
-
-  accelerateDown(state){
-    this.gravityMovement(state, this.y = this.y + (this.velocity *= this.acceleration));
-  }
-
-  accelerateUp(state){
-    this.gravityMovement(state, this.y = this.y - (this.velocity *= this.acceleration));
+  toggleGravity() {
+    this.gravity = !this.gravity;
   }
 
   resetVelocity(){
     this.velocity = this.initialVelocity;
   };
 
-  manageGravity(key){
+  atVerticalLimit(screen) {
+    return this.atUpperBound() || this.atLowerBound()screen;
+  }
+
+  atUpperBound() {
+    return this.y < 0;
+  }
+
+  atLowerBound(screen) {
+    return this.y > screen.height - this.height;;
+  }
+
+  accelerate(state) {
+    this.gravity ? this.accelerateDown(state) : this.accelerateUp(state)
+  }
+
+  accelerateDown(state){
+    this.y += this.acceleratedVelocity();
+  }
+
+  accelerateUp(state){
+    this.y -= this.acceleratedVelocity();
+  }
+
+  acceleratedVelocity() {
+    return this.velocity *= this.acceleration;
+  }
+
+  jetPack(key){
     if(key === 38 && this.gravity || key === 40 && !this.gravity ){
       this.velocity = this.bounceFactor;
       setTimeout(this.resetVelocity.bind(this), 200);
-    }
-  }
-
-  gravityMovement(state){
-    state.context.fillStyle = this.color;
-    state.context.fillRect(this.x, this.y, this.width, this.height);
-  }
-
-  //render
-
-  render(state, blockParty){
-    if(this.y > state.screen.height - this.height){
-      if(this.gravity) {this.velocity = this.initialVelocity;}
-      this.gravity = false;
-      this.active(state);
-    } else if (this.y < 0) {
-      if(!this.gravity) {this.velocity = this.initialVelocity;}
-      this.gravity = true;
-      this.active(state);
-    } else {
-      this.active(state);
-    }
-    if(blockParty.partyPipes.length > 0){
-      this.checkPipeEntry(state, blockParty);
     }
   }
 }
