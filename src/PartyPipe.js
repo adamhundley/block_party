@@ -1,4 +1,4 @@
-import { colorsSample, getRandomInt } from './helpers';
+import { colorsSample, getRandomInt } from './_helpers';
 
 export default class PartyPipe {
   constructor(args) {
@@ -11,18 +11,16 @@ export default class PartyPipe {
     this.speed = 6;
   }
 
-  passPartySquare(blockParty){
-    if(blockParty.inGame){
-      let partySquare = blockParty.partySquare[0];
-      if(this.x + this.width < partySquare.x) {
-        this.color = '#2c3e50';
-      }
-    }
-  }
-
   render(state, blockParty){
     state.context.fillStyle = this.color;
     state.context.fillRect(this.x -= this.speed, this.y, this.width, this.height);
     this.passPartySquare(blockParty);
+  }
+
+  passPartySquare(blockParty){
+    if(blockParty.inGame){
+      let partySquare = blockParty.partySquare[0];
+      if(this.x + this.width < partySquare.x) {this.color = '#2c3e50';}
+    }
   }
 }
