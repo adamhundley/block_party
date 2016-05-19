@@ -6,7 +6,6 @@ export default class PartySquare {
     this.y = args.y;
     this.height = args.y/12;
     this.width = this.height;
-    this.create = args.create;
     this.gravity = true;
     this.initialVelocity = 5;
     this.acceleration = 1.5;
@@ -27,8 +26,10 @@ export default class PartySquare {
 
   move(state){
     if(this.atLowerBound(state.screen)){
+      state.currentScore += 10;
       this.gravity = false;
     } else if (this.atUpperBound()) {
+      state.currentScore += 10;
       this.gravity = true;
     }
     this.resetVelocity();
@@ -47,27 +48,68 @@ export default class PartySquare {
   }
 
   checkPipeEntry(state, blockParty){
-    let entryTop = blockParty.pipeEntries[this.currentPipe].y;
-    let entryBottom = blockParty.pipeEntries[this.currentPipe].y + blockParty.pipeEntries[this.currentPipe].height;
+    let currentPipe = blockParty.pipeEntries[this.currentPipe];
+    let entryTop = this.currentPipeUpperBound(currentPipe);
+    let entryBottom = this.currentPipeLowerBound(currentPipe);
+    let entranceX = this.currentPipeEntranceX(currentPipe);
+    let exitX = this.currentPipeExitX(currentPipe);
+    let pipeColor = this.currentPipeColor(currentPipe);
 
-    if(this.x + this.width > blockParty.partyPipes[this.currentPipe].x && this.x < blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width ){
-      if(this.y > entryTop && this.y + this.height < entryBottom && this.color === blockParty.pipeEntries[this.currentPipe].color){
+    if(this.x + this.width > entranceX && this.x < exitX){
+      if(this.y > entryTop && this.y + this.height < entryBottom && this.color === pipeColor){
         this.points++;
       } else {
         this.destroy();
       }
     }
 
-    if(this.x > blockParty.partyPipes[this.currentPipe].x + blockParty.partyPipes[this.currentPipe].width){
-        this.currentPipe++;
-        this.points = 0;
-      }
+    if(this.x > exitX){
+      this.currentPipe++;
+      this.points = 0;
     }
+  }
 
-  respondToUser(key){
+  currentPipeUpperBound(currentPipe){
+    if (currentPipe) {
+      return currentPipe.y;
+    }
+  }
+
+  currentPipeLowerBound(currentPipe){
+    if (currentPipe) {
+      return currentPipe.y + currentPipe.height;
+    }
+  }
+
+  currentPipeEntranceX(currentPipe){
+    if (currentPipe) {
+      return currentPipe.x
+    }
+  }
+
+  currentPipeExitX(currentPipe){
+    if (currentPipe) {
+      return currentPipe.x + currentPipe.width
+    }
+  }
+
+  currentPipeColor(currentPipe){
+    if (currentPipe) {
+      return currentPipe.color
+    }
+  }
+
+  respondToUser(key, state){
     if(key === 38 || key === 40){
       this.jetPack(key);
-    } else if (key === 65) {
+    } else if(colorCollection().indexOf(key) != 0){
+        this.changeColor(key, state);
+    }
+  }
+
+  changeColor(key, state){
+    state.currentScore += 1;
+    if (key === 65) {
       this.color = colorCollection()[0];
     } else if (key === 83) {
       this.color = colorCollection()[1];

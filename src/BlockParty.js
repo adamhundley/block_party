@@ -103,7 +103,7 @@ export class BlockParty extends Component {
 
   handleKeys(value, e){
     if(this.state.inGame){
-      this.partySquare[0].respondToUser(e.keyCode);
+      this.partySquare[0].respondToUser(e.keyCode, this.state);
     }
 
     if(!this.state.inGame && e.keyCode === 13){
@@ -184,7 +184,7 @@ export class BlockParty extends Component {
         { endgame }
       <span className="score current-score" >Score: {this.state.currentScore}</span>
       <span className="score top-score" >Top Score: {this.state.topScore}</span>
-      <span className="controls" >
+      <span className="controls fade-out" >
         Use [←][↑][↓][→] to MOVE<br/>
         Use [A][S][D][F] to CHANGE COLORS
       </span>
