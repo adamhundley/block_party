@@ -14,7 +14,7 @@ export function toggleGravity(obj) {
 
 export function resetVelocity(obj){
   obj.velocity = obj.initialVelocity;
-};
+}
 
 export function atVerticalLimit(screen, obj) {
   return atUpperBound(obj) || atLowerBound(obj);

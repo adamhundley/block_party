@@ -28,7 +28,7 @@ export default class PartySquare {
   }
 
   move(state){
-    motion.managePerimeterCollision(state, this)
+    motion.managePerimeterCollision(state, this);
     motion.resetVelocity(this);
     motion.accelerate(state, this);
     this.draw(state);
@@ -47,7 +47,7 @@ export default class PartySquare {
   respondToUser(key, state){
     if(key === 38 || key === 40){
       motion.jetPack(key, this);
-    } else if(colorCollection().indexOf(key) != 0){
+    } else if(colorCollection().indexOf(key) !== 0){
       colorManager.changeSquareColor(key, state, this);
     }
   }

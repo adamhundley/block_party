@@ -53,7 +53,7 @@ describe('PartySquare', function() {
     });
 
     it('should assign a currentPipe', function(){
-      assert.equal(partySquare.currentPipe, 0);
+      assert.equal(partySquare.currentPipeIndex, 0);
     });
 
     it('should assign a onDie', function(){
