@@ -84,7 +84,7 @@ export default class PartySquare {
 
   resetVelocity(){
     this.velocity = this.initialVelocity;
-  };
+  }
 
   atVerticalLimit(screen) {
     return this.atUpperBound() || this.atLowerBound();
@@ -95,7 +95,7 @@ export default class PartySquare {
   }
 
   atLowerBound(screen) {
-    return this.y > screen.height - this.height;;
+    return this.y > screen.height - this.height;
   }
 
   accelerate(state) {

@@ -33,19 +33,19 @@ describe('PartySquare', function() {
     });
 
     it('should assign a initialVelocity', function(){
-      assert.equal(partySquare.initialVelocity, 4);
+      assert.equal(partySquare.initialVelocity, 5);
     });
 
     it('should assign a acceleration', function(){
-      assert.equal(partySquare.acceleration, 1.01);
+      assert.equal(partySquare.acceleration, 1.5);
     });
 
-    it('should assign a bounceFactor', function(){
-      assert.equal(partySquare.bounceFactor, -10);
+    it('should assign a jetAcceleration', function(){
+      assert.equal(partySquare.jetAcceleration, 1.004);
     });
 
     it('should assign a velocity', function(){
-      assert.equal(partySquare.velocity, 4);
+      assert.equal(partySquare.velocity, 5);
     });
 
     it('should assign a points', function(){
@@ -60,4 +60,19 @@ describe('PartySquare', function() {
       assert.equal(partySquare.onDie, 'onDie');
     });
   });
+
+  // describe('render', function() {
+  //   context('with default attributes', function() {
+  //     var args = {x: 400,
+  //                 y: 600,
+  //                 onDie: 'onDie',
+  //                 };
+  //
+  //     var partySquare = new PartySquare(args);
+  //
+  //     it('should assign an x coordinate', function() {
+  //       assert.equal(partySquare.render(), 400);
+  //     });
+  //   });
+  // });
 });
