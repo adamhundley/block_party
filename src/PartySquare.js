@@ -9,8 +9,8 @@ export default class PartySquare {
     this.create = args.create;
     this.gravity = true;
     this.initialVelocity = 5;
-    this.acceleration = 1.01;
-    this.jetAcceleration = 1.003;
+    this.acceleration = 1.5;
+    this.jetAcceleration = 1.004;
     this.velocity = 5;
     this.points = 0;
     this.currentPipe = 0;
