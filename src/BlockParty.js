@@ -104,6 +104,10 @@ export class BlockParty extends Component {
     if(this.state.inGame){
       this.partySquare[0].respondToUser(e.keyCode);
     }
+
+    if(!this.state.inGame && e.keyCode === 13){
+      this.startGame();
+    }
   }
 
   componentDidMount() {
