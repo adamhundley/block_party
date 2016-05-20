@@ -22,6 +22,7 @@ export class BlockParty extends Component {
     this.pipeEntries = [];
     this.pipeCount = 0;
     this.levelManager = new LevelManager();
+    this.paused = false
   }
 
   componentDidMount() {
@@ -59,7 +60,7 @@ export class BlockParty extends Component {
     this.manageLevelObjects(this.state);
     context.restore();
     // Next frame
-    requestAnimationFrame(() => {this.update();});
+    this.animation = requestAnimationFrame(() => {this.update();});
   }
 
   pipeIntervals(){
@@ -158,6 +159,16 @@ export class BlockParty extends Component {
       this.partySquare[0].respondToUser(e.keyCode, this.state);
     }
 
+    if(this.state.inGame && e.keyCode === 32){
+      if(!this.paused){
+        cancelAnimationFrame(this.animation);
+        this.paused = true;
+      }else{
+        this.update();
+        this.paused = false;
+      }
+    }
+
     if(!this.state.inGame && e.keyCode === 13){
       this.startGame();
     }
@@ -195,7 +206,7 @@ export class BlockParty extends Component {
         Use [←][↑][↓][→] to MOVE<br/>
         Use [A][S][D][F] to CHANGE COLORS
       </span>
-        <canvas ref="canvas"
+        <canvas moz-opaque ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
         />
