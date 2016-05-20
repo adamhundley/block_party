@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PartySquare from './PartySquare';
-import PartyPipe from './PartyPipe';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
 
@@ -11,18 +10,18 @@ export class BlockParty extends Component {
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1,
+        ratio: window.devicePixelRatio || 1
       },
       context: null,
       inGame: false,
-      topScore: localStorage['topscore'] || 0,
+      topScore: localStorage['topscore'] || 0
     };
     this.partySquare =[];
     this.partyPipes = [];
     this.pipeEntries = [];
     this.pipeCount = 0;
     this.levelManager = new LevelManager();
-    this.paused = false
+    this.paused = false;
   }
 
   componentDidMount() {
@@ -128,7 +127,7 @@ export class BlockParty extends Component {
 
   addScore(points){
     this.setState({
-      currentScore: this.state.currentScore + points,
+      currentScore: this.state.currentScore + points
     });
   }
 
@@ -194,7 +193,7 @@ export class BlockParty extends Component {
             try again
           </button>
         </div>
-      )
+      );
     }
 
     return (

@@ -14,7 +14,7 @@ export default class PipeEntry {
     this.speed = this.partyPipe.speed;
   }
 
-  render(state, blockParty){
+  render(state){
     state.context.fillStyle = this.color;
     state.context.fillRect(this.x -= this.speed, this.y, this.width, this.height);
   }
