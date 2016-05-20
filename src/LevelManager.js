@@ -1,8 +1,15 @@
 import PartyPipe from './PartyPipe';
 import * as levelOne from './levels/_levelOne';
 import * as levelTwo from './levels/_levelTwo';
+import * as levelThree from './levels/_levelTwo';
 
 export default class LevelManager {
+  attributes(state, object, level){
+    if(object === 'PartyPipe'){
+      return this.createPartyPipe(level);
+    }
+  }
+
   createObject(state, object){
     return this.manageObjects(state, object);
   }
@@ -12,12 +19,31 @@ export default class LevelManager {
   }
 
   manageObjects(state, object){
-    let scope = this;
     if(state.currentScore < 200){
-      return levelOne.attributes(state, object, scope);
-    } else if (state.currentScore < 2000) {
-      return levelTwo.attributes(state, object, scope);
+      return this.attributes(state, object, levelOne.partyPipe(state));
+    } else if (state.currentScore < 400) {
+      state.currentLevel = 2;
+      return this.attributes(state, object, levelTwo.partyPipe(state));
+    } else if (state.currentScore) {
+      state.currentLevel = 3;
+      return this.attributes(state, object, levelThree.partyPipe(state));
     }
   }
 
+  setInterval(pipeIntervals, state){
+    let level = state.currentLevel;
+    if(level === 1){
+      state.pipeInterval = setInterval(pipeIntervals, 4000);
+    } else if (level === 2) {
+      state.pipeInterval = setInterval(pipeIntervals, 3000);
+    } else if (level === 3) {
+      state.pipeInterval = setInterval(pipeIntervals, 2000);
+    }
+  }
+
+  manageIntervals(pipeIntervals, state){
+    clearInterval(state.pipeInterval);
+    this.setInterval(pipeIntervals, state);
+    state.nextLevel++;
+  }
 }

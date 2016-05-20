@@ -8,6 +8,6 @@ export function partyPipe(state){
     x: state.screen.width,
     y: 0,
     color: colorsSample(),
-    speed: 6
+    speed: 10
   };
 }
