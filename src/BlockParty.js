@@ -164,6 +164,7 @@ export class BlockParty extends Component {
         this.paused = true;
       }else{
         this.update();
+
         this.paused = false;
       }
     }
