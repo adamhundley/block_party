@@ -1,4 +1,5 @@
 import PartyPipe from './PartyPipe';
+import PipeEntry from './PipeEntry';
 import IntervalManager from './IntervalManager';
 import {levelOne} from './levels/_levelOne';
 import {levelTwo} from './levels/_levelTwo';
@@ -8,21 +9,25 @@ import {levelFive} from './levels/_levelFive';
 
 
 export default class LevelManager {
-  createObject(state, object){
-    return this.manageObjects(state, object);
+  createObject(state, objectType){
+    return this.manageObjects(state, objectType);
   }
 
-  manageObjects(state, object){
+  manageObjects(state, objectType){
     let currentLevel = this.currentLevel(state);
-    return this.attributes(state, this.currentLevel(state));
+    return this.attributes(state, this.currentLevel(state), objectType);
   }
 
-  attributes(state, level){
-    return this.createPartyPipe(level(state));
+  attributes(state, level, objectType){
+    return this["create" + objectType](level, state)
   }
 
-  createPartyPipe(attributes){
-    return new PartyPipe(attributes);
+  createPartyPipe(level, state){
+    return new PartyPipe(level(state));
+  }
+
+  createPipeEntry(level, state){
+    return new PipeEntry(state)
   }
 
   manageIntervals(pipeIntervals, state){
@@ -35,12 +40,14 @@ export default class LevelManager {
   }
 
   currentLevel(state){
-    if(state.currentScore < 100){
+    if(state.currentScore < 5){
+      //make 1000
       return levelOne
-    } else if (state.currentScore < 200) {
+    } else if (state.currentScore < 10) {
+      //make 3000
       state.currentLevel = 2;
       return levelTwo
-    } else if (state.currentScore) {
+    } else if (state.currentScore < 6000) {
       state.currentLevel = 3;
       return levelThree
     }
