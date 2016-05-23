@@ -1,13 +1,12 @@
-
 export default class PartyPipe {
   constructor(attributes) {
-    this.maxWidth = attributes.maxWidth;
-    this.height = attributes.height;
-    this.width = attributes.width;
-    this.x = attributes.x;
-    this.y = attributes.y;
-    this.color = attributes.color;
-    this.speed = attributes.speed;
+    this.maxWidth = attributes.pipe.maxWidth;
+    this.height = attributes.pipe.height;
+    this.width = attributes.pipe.width;
+    this.x = attributes.pipe.x;
+    this.y = attributes.pipe.y;
+    this.color = attributes.pipe.color;
+    this.speed = attributes.pipe.speed;
   }
 
   render(state, blockParty){
