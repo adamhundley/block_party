@@ -103,7 +103,6 @@ export class BlockParty extends Component {
 
   createPipeEntry(state){
     let pipeEntry = state.levelManager.createObject(state, 'PipeEntry');
-
     this.addObjectToState(pipeEntry, 'pipeEntries');
   }
 
@@ -112,17 +111,14 @@ export class BlockParty extends Component {
   }
 
   updateObjects(items, group){
-    let index = 0;
-    for (let item of items) {
-      if (item.delete) {
-        this.state[group].splice(index, 1);
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].delete) {
+        this.state[group].splice(i, 1);
       }else{
-        items[index].render(this.state);
+        items[i].render(this.state);
       }
-      index++;
     }
   }
-
 
   addScore(points){
     this.setState({
@@ -168,7 +164,6 @@ export class BlockParty extends Component {
 
     if(this.state.inGame && e.keyCode === 32){
       this.togglePause();
-
     }
 
     if(!this.state.inGame && e.keyCode === 13){

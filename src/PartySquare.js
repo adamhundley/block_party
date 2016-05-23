@@ -1,6 +1,6 @@
 import { colorsSample, colorCollection } from './_helpers';
 import PipeCleaner from './PipeCleaner';
-import * as motion from './_partySquareMotion';
+import * as motion from './_partyPhysics';
 import * as colorManager from './_colorManager';
 
 export default class PartySquare {
