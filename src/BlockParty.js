@@ -66,7 +66,7 @@ export class BlockParty extends Component {
     this.updateObjects(this.state.pipeEntries, 'pipeEntries');
     this.updateObjects(this.state.partySquare, 'partySquare');
     if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
-    this.manageIntervals();
+    this.manageLevels();
     context.restore();
     // Next frame
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
@@ -79,8 +79,8 @@ export class BlockParty extends Component {
     }.bind(this);
   }
 
-  manageIntervals(){
-    this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
+  manageLevels(){
+    this.state.levelManager.manageLevels(this.pipeIntervals(), this.state);
   }
 
   endGame(){

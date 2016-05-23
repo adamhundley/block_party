@@ -30,7 +30,7 @@ export default class LevelManager {
     return new PipeEntry(state);
   }
 
-  manageIntervals(pipeIntervals, state){
+  manageLevels(pipeIntervals, state){
     if(state.currentLevel === state.nextLevel){
       state.nextLevel++;
 
