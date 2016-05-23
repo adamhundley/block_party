@@ -1,7 +1,9 @@
 import PartyPipe from './PartyPipe';
 import * as levelOne from './levels/_levelOne';
 import * as levelTwo from './levels/_levelTwo';
-import * as levelThree from './levels/_levelTwo';
+import * as levelThree from './levels/_levelThree';
+import * as levelFour from './levels/_levelFour';
+import * as levelFive from './levels/_levelFive';
 
 export default class LevelManager {
   attributes(state, object, level){
