@@ -7,21 +7,20 @@ export class BlockParty extends Component {
   constructor(){
     super();
     this.state = {
+      inGame: false,
+      paused: false,
+      partySquare: [],
+      partyPipes: [],
+      pipeEntries: [],
+      topScore: localStorage['topscore'] || 0,
+      levelManager: new LevelManager(),
+      context: null,
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
         ratio: window.devicePixelRatio || 1
-      },
-      context: null,
-      inGame: false,
-      topScore: localStorage['topscore'] || 0,
-      paused: false
+      }
     };
-    this.partySquare =[];
-    this.partyPipes = [];
-    this.pipeEntries = [];
-    this.pipeCount = 0;
-    this.levelManager = new LevelManager();
   }
 
   componentDidMount() {
@@ -39,11 +38,23 @@ export class BlockParty extends Component {
       inGame: true,
       currentScore: 0,
       currentLevel: 1,
-      nextLevel: 1
+      nextLevel: 1,
     });
-    this.setPipes();
     let partySquare = this.createPartySquare();
-    this.createObject(partySquare, 'partySquare');
+    this.addObjectToState(partySquare, 'partySquare');
+  }
+
+  resetState(){
+    this.setState({
+      partyPipes: [],
+      partySquare: [],
+      pipeEntries: []
+    })
+  }
+
+  restartGame(){
+    this.resetState();
+    this.startGame();
   }
 
   update() {
@@ -51,11 +62,10 @@ export class BlockParty extends Component {
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
-    this.updateObjects(this.partyPipes, 'partyPipes');
-    this.updateObjects(this.pipeEntries, 'pipeEntries');
-    this.updateObjects(this.partySquare, 'partySquare');
-    if(this.state.inGame){this.addScore(this.partySquare[0].points);}
-    this.manageLevelObjects(this.state);
+    this.updateObjects(this.state.partyPipes, 'partyPipes');
+    this.updateObjects(this.state.pipeEntries, 'pipeEntries');
+    this.updateObjects(this.state.partySquare, 'partySquare');
+    if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
     this.manageIntervals();
     context.restore();
     // Next frame
@@ -65,13 +75,12 @@ export class BlockParty extends Component {
   pipeIntervals(){
     return function(){
       this.createPartyPipe(this.state);
-      this.createPipeEntry(this.state, this.partyPipes[this.partyPipes.length -1]);
-      this.pipeCount += 1;
+      this.createPipeEntry(this.state);
     }.bind(this);
   }
 
   manageIntervals(){
-    this.levelManager.manageIntervals(this.pipeIntervals(), this.state);
+    this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
   }
 
   endGame(){
@@ -88,52 +97,38 @@ export class BlockParty extends Component {
   }
 
   createPartyPipe(state){
-    let partyPipe = this.levelManager.createObject(state, 'PartyPipe');
-
-    this.createObject(partyPipe, 'partyPipes');
+    let partyPipe = state.levelManager.createObject(state, 'PartyPipe');
+    this.addObjectToState(partyPipe, 'partyPipes');
   }
 
-  createPipeEntry(state, partyPipe){
-    let pipeEntry = new PipeEntry({
-      state: state,
-      partyPipe: partyPipe
-    });
-    this.createObject(pipeEntry, 'pipeEntries');
+  createPipeEntry(state){
+    let pipeEntry = state.levelManager.createObject(state, 'PipeEntry');
+
+    this.addObjectToState(pipeEntry, 'pipeEntries');
   }
 
-  createObject(object, type){
-    this[type].push(object);
+  addObjectToState(object, type){
+    this.state[type].push(object);
   }
 
   updateObjects(items, group){
     let index = 0;
     for (let item of items) {
       if (item.delete) {
-        this[group].splice(index, 1);
+        this.state[group].splice(index, 1);
       }else{
-        items[index].render(this.state, this);
+        items[index].render(this.state);
       }
       index++;
     }
   }
 
-  setPipes() {
-    this.partyPipes = [];
-    this.pipeEntries = [];
-    this.pipeCount = 0;
-    this.pipeCount = 0;
-  }
 
   addScore(points){
     this.setState({
       currentScore: this.state.currentScore + points
     });
   }
-
-  manageLevelObjects(state){
-    this.levelManager.manageObjects(state);
-  }
-
 
   updateTopScore() {
     if(this.state.currentScore > this.state.topScore){
@@ -161,14 +156,14 @@ export class BlockParty extends Component {
     if(this.state.paused){
       clearInterval(this.state.pipeInterval);
     } else {
-      this.levelManager.setInterval(this.pipeIntervals(), this.state)
+      this.state.levelManager.setInterval(this.pipeIntervals(), this.state)
       this.update();
     }
   }
 
   handleKeys(value, e){
     if(this.state.inGame){
-      this.partySquare[0].respondToUser(e.keyCode, this.state);
+      this.state.partySquare[0].respondToUser(e.keyCode, this.state);
     }
 
     if(this.state.inGame && e.keyCode === 32){
@@ -177,7 +172,7 @@ export class BlockParty extends Component {
     }
 
     if(!this.state.inGame && e.keyCode === 13){
-      this.startGame();
+      this.restartGame();
     }
   }
 
@@ -197,7 +192,7 @@ export class BlockParty extends Component {
           <h2>Game over.</h2>
           <h1>{message}</h1>
           <button
-            onClick={ this.startGame.bind(this) }>
+            onClick={ this.restartGame.bind(this) }>
             try again
           </button>
         </div>

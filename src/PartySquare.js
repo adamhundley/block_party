@@ -20,10 +20,10 @@ export default class PartySquare {
     this.onDie = args.onDie;
   }
 
-  render(state, blockParty) {
+  render(state) {
     this.move(state);
-    if(blockParty.partyPipes.length > 0) {
-      this.checkPipeEntry(blockParty);
+    if(state.partyPipes.length > 0) {
+      this.checkPipeEntry(state);
     }
   }
 
@@ -52,8 +52,8 @@ export default class PartySquare {
     }
   }
 
-  checkPipeEntry(blockParty){
-    let currentPipe = blockParty.pipeEntries[this.currentPipeIndex];
+  checkPipeEntry(state){
+    let currentPipe = state.pipeEntries[this.currentPipeIndex];
     let pipeCleaner = new PipeCleaner(currentPipe);
     if(this.insidePipe(pipeCleaner)){this.travelThroughPipe(pipeCleaner);}
     this.exitPipe(pipeCleaner);
