@@ -14,14 +14,14 @@ export class BlockParty extends Component {
       },
       context: null,
       inGame: false,
-      topScore: localStorage['topscore'] || 0
+      topScore: localStorage['topscore'] || 0,
+      paused: false
     };
     this.partySquare =[];
     this.partyPipes = [];
     this.pipeEntries = [];
     this.pipeCount = 0;
     this.levelManager = new LevelManager();
-    this.paused = false;
   }
 
   componentDidMount() {
@@ -55,19 +55,19 @@ export class BlockParty extends Component {
     this.updateObjects(this.pipeEntries, 'pipeEntries');
     this.updateObjects(this.partySquare, 'partySquare');
     if(this.state.inGame){this.addScore(this.partySquare[0].points);}
-    if(this.state.currentLevel === this.state.nextLevel){this.manageIntervals();}
+    this.manageIntervals();
     this.manageLevelObjects(this.state);
     context.restore();
     // Next frame
-    this.animation = requestAnimationFrame(() => {this.update();});
+    if(!this.state.paused){this.animation = requestAnimationFrame(() => {this.update();})};
   }
 
   pipeIntervals(){
     return function(){
-      this.createPartyPipe(this.state);
-      this.createPipeEntry(this.state, this.partyPipes[this.partyPipes.length -1]);
-      this.pipeCount += 1;
-    }.bind(this);
+        this.createPartyPipe(this.state);
+        this.createPipeEntry(this.state, this.partyPipes[this.partyPipes.length -1]);
+        this.pipeCount += 1;
+      }.bind(this);
   }
 
   manageIntervals(){
@@ -153,20 +153,28 @@ export class BlockParty extends Component {
     });
   }
 
+  togglePause(){
+    this.setState({paused: !this.state.paused});
+    this.gamePauser();
+  }
+
+  gamePauser(){
+    if(this.state.paused){
+      clearInterval(this.state.pipeInterval);
+    } else {
+      this.levelManager.setInterval(this.pipeIntervals(), this.state)
+      this.update();
+    }
+  }
+
   handleKeys(value, e){
     if(this.state.inGame){
       this.partySquare[0].respondToUser(e.keyCode, this.state);
     }
 
     if(this.state.inGame && e.keyCode === 32){
-      if(!this.paused){
-        cancelAnimationFrame(this.animation);
-        this.paused = true;
-      }else{
-        this.manageIntervals();
-        this.update();
-        this.paused = false;
-      }
+      this.togglePause();
+
     }
 
     if(!this.state.inGame && e.keyCode === 13){

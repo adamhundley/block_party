@@ -5,7 +5,7 @@ export default class PipeEntry {
     this.margin = 65;
     this.partyPipe = args.partyPipe;
     this.maxHeight = args.state.screen.height*.75;
-    this.minHeight = args.state.screen.height/4;
+    this.minHeight = args.state.screen.height/2;
     this.height = getRandomInt(this.minHeight, this.maxHeight);
     this.x = args.state.screen.width;
     this.y = getRandomInt(this.margin, args.state.screen.height - (this.margin + this.height));

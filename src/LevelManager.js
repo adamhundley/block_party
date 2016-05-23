@@ -32,6 +32,7 @@ export default class LevelManager {
     }
   }
 
+
   setInterval(pipeIntervals, state){
     let level = state.currentLevel;
     if(level === 1){
@@ -44,8 +45,10 @@ export default class LevelManager {
   }
 
   manageIntervals(pipeIntervals, state){
-    clearInterval(state.pipeInterval);
-    this.setInterval(pipeIntervals, state);
-    state.nextLevel++;
+    if(state.currentLevel === state.nextLevel){
+      clearInterval(state.pipeInterval);
+      state.nextLevel++;
+      this.setInterval(pipeIntervals, state);
+    }
   }
 }
