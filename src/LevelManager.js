@@ -19,9 +19,9 @@ export default class LevelManager {
   }
 
   manageObjects(state, object){
-    if(state.currentScore < 200){
+    if(state.currentScore < 100){
       return this.attributes(state, object, levelOne.partyPipe(state));
-    } else if (state.currentScore < 400) {
+    } else if (state.currentScore < 200) {
       state.currentLevel = 2;
       return this.attributes(state, object, levelTwo.partyPipe(state));
     } else if (state.currentScore) {

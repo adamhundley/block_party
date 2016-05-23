@@ -163,8 +163,8 @@ export class BlockParty extends Component {
         cancelAnimationFrame(this.animation);
         this.paused = true;
       }else{
+        this.manageIntervals();
         this.update();
-
         this.paused = false;
       }
     }
