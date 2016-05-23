@@ -1,14 +1,12 @@
-import { colorsSample, getRandomInt } from './_helpers';
-
 export default class PartyPipe {
-  constructor(args) {
-    this.maxWidth = args.state.screen.width/12;
-    this.height = args.state.screen.height;
-    this.width = getRandomInt(10, this.maxWidth);
-    this.x = args.state.screen.width;
-    this.y = 0;
-    this.color = colorsSample();
-    this.speed = 6;
+  constructor(attributes) {
+    this.maxWidth = attributes.pipe.maxWidth;
+    this.height = attributes.pipe.height;
+    this.width = attributes.pipe.width;
+    this.x = attributes.pipe.x;
+    this.y = attributes.pipe.y;
+    this.color = attributes.pipe.color;
+    this.speed = attributes.pipe.speed;
   }
 
   render(state, blockParty){

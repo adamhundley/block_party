@@ -12,5 +12,5 @@ export function getRandomInt(min, max) {
 }
 
 export function colorCollection(){
-  return [ "#0033FF", "#00FFFF", "#FF00FF", "#9D00FF"];
+  return [ '#0033FF', '#00FFFF', '#FF00FF', '#9D00FF'];
 }
