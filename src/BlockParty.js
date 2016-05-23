@@ -12,7 +12,7 @@ export class BlockParty extends Component {
       partySquare: [],
       partyPipes: [],
       pipeEntries: [],
-      topScore: localStorage['topscore'] || 0,
+      topScore: localStorage.topscore || 0,
       levelManager: new LevelManager(),
       context: null,
       screen: {
@@ -49,7 +49,7 @@ export class BlockParty extends Component {
       partyPipes: [],
       partySquare: [],
       pipeEntries: []
-    })
+    });
   }
 
   restartGame(){
@@ -69,7 +69,7 @@ export class BlockParty extends Component {
     this.manageIntervals();
     context.restore();
     // Next frame
-    if(!this.state.paused){this.animation = requestAnimationFrame(() => {this.update();})};
+    if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
   }
 
   pipeIntervals(){
@@ -133,7 +133,7 @@ export class BlockParty extends Component {
   updateTopScore() {
     if(this.state.currentScore > this.state.topScore){
       this.setState({topScore: this.state.currentScore});
-      localStorage['topscore'] = this.state.currentScore;
+      localStorage.topscore = this.state.currentScore;
     }
   }
 
@@ -156,7 +156,7 @@ export class BlockParty extends Component {
     if(this.state.paused){
       clearInterval(this.state.pipeInterval);
     } else {
-      this.state.levelManager.setInterval(this.pipeIntervals(), this.state)
+      this.state.levelManager.setInterval(this.pipeIntervals(), this.state);
       this.update();
     }
   }

@@ -19,7 +19,7 @@ export default class LevelManager {
   }
 
   attributes(state, level, objectType){
-    return this["create" + objectType](level, state)
+    return this["create" + objectType](level, state);
   }
 
   createPartyPipe(level, state){
@@ -27,14 +27,14 @@ export default class LevelManager {
   }
 
   createPipeEntry(level, state){
-    return new PipeEntry(state)
+    return new PipeEntry(state);
   }
 
   manageIntervals(pipeIntervals, state){
     if(state.currentLevel === state.nextLevel){
       state.nextLevel++;
 
-      let currentLevel = this.currentLevel(state)
+      let currentLevel = this.currentLevel(state);
       new IntervalManager().levelUp(pipeIntervals, state, currentLevel);
     }
   }
@@ -42,14 +42,14 @@ export default class LevelManager {
   currentLevel(state){
     if(state.currentScore < 5){
       //make 1000
-      return levelOne
+      return levelOne;
     } else if (state.currentScore < 10) {
       //make 3000
       state.currentLevel = 2;
-      return levelTwo
+      return levelTwo;
     } else if (state.currentScore < 6000) {
       state.currentLevel = 3;
-      return levelThree
+      return levelThree;
     }
   }
 }

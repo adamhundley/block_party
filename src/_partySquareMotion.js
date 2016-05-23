@@ -29,7 +29,11 @@ export function atLowerBound(screen, obj) {
 }
 
 export function accelerate(state, obj) {
-  obj.gravity ? accelerateDown(state, obj) : accelerateUp(state, obj);
+  if (obj.gravity) {
+    accelerateDown(state, obj);
+  } else {
+    accelerateUp(state, obj);
+  }
 }
 
 export function accelerateDown(state, obj){
