@@ -13,7 +13,7 @@ export function levelFour(state){
     },
     entry: {
       inMotion: true,
-      gravity: false,
+      gravity: Math.random() >= 0.5,
       velocity: 1,
       acceleration: 1
     }
