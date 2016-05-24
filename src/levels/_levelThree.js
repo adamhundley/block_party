@@ -11,8 +11,5 @@ export function levelThree(state){
       speed: 7,
       rate: 2900
     },
-    entry: {
-
-    }
   };
 }

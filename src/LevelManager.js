@@ -27,7 +27,7 @@ export default class LevelManager {
   }
 
   createPipeEntry(level, state){
-    return new PipeEntry(state);
+    return new PipeEntry(state, level(state));
   }
 
   manageLevels(pipeIntervals, state){
@@ -47,9 +47,13 @@ export default class LevelManager {
       //make 3000
       state.currentLevel = 2;
       return levelTwo;
-    } else if (state.currentScore < 6000) {
+    } else if (state.currentScore < 15) {
+      //make 5000
       state.currentLevel = 3;
       return levelThree;
+    } else if (state.currentScore < 7000) {
+      state.currentLevel = 4;
+      return levelFour;
     }
   }
 }

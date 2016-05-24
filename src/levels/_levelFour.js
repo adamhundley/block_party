@@ -3,14 +3,19 @@ import { colorsSample, getRandomInt } from '../_helpers';
 export function levelFour(state){
   return {
     pipe: {
-      maxWidth: state.screen.width/12,
       height: state.screen.height,
-      width: getRandomInt(10, state.screen.width/12),
+      width: getRandomInt(state.screen.width/125, state.screen.width/12),
       x: state.screen.width,
       y: 0,
       color: colorsSample(),
-      speed: 6,
-      rate: 2000
+      speed: 7,
+      rate: 2900
+    },
+    entry: {
+      inMotion: true,
+      gravity: false,
+      velocity: 1,
+      acceleration: 1
     }
   };
 }
