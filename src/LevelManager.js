@@ -39,6 +39,10 @@ export default class LevelManager {
     }
   }
 
+  unpauseGame(pipeIntervals, state){
+    new IntervalManager().setInterval(pipeIntervals, state);
+  }
+
   currentLevel(state){
     if(state.currentScore < 5){
       //make 1000

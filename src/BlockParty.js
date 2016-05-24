@@ -2,6 +2,7 @@ import View from './views/View';
 import PartySquare from './PartySquare';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
+import IntervalManager from './IntervalManager';
 
 export class BlockParty extends View {
   constructor(){
@@ -152,9 +153,13 @@ export class BlockParty extends View {
     if(this.state.paused){
       clearInterval(this.state.pipeInterval);
     } else {
-      this.state.levelManager.setInterval(this.pipeIntervals(), this.state);
-      this.update();
+      this.resetInterval();
     }
+  }
+
+  resetInterval() {
+    new IntervalManager().setInterval(this.pipeIntervals(), this.state);
+    this.update();
   }
 
   handleKeys(value, e){
