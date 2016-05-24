@@ -14,7 +14,6 @@ export default class LevelManager {
   }
 
   manageObjects(state, objectType){
-    let currentLevel = this.currentLevel(state);
     return this.attributes(state, this.currentLevel(state), objectType);
   }
 
