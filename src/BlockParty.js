@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PartySquare from './PartySquare';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
+import IntervalManager from './IntervalManager';
 
 export class BlockParty extends Component {
   constructor(){
@@ -152,9 +153,13 @@ export class BlockParty extends Component {
     if(this.state.paused){
       clearInterval(this.state.pipeInterval);
     } else {
-      this.state.levelManager.setInterval(this.pipeIntervals(), this.state);
-      this.update();
+      this.resetInterval();
     }
+  }
+
+  resetInterval() {
+    new IntervalManager().setInterval(this.pipeIntervals(), this.state);
+    this.update();
   }
 
   handleKeys(value, e){
