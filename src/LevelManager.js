@@ -1,5 +1,6 @@
 import PartyPipe from './PartyPipe';
 import PipeEntry from './PipeEntry';
+import PartySquare from './PartySquare';
 import IntervalManager from './IntervalManager';
 import {levelOne} from './levels/_levelOne';
 import {levelTwo} from './levels/_levelTwo';
@@ -30,6 +31,10 @@ export default class LevelManager {
     return new PipeEntry(state, level(state));
   }
 
+  createPartySquare(level, state){
+    return new PartySquare(state, level(state));
+  }
+
   manageLevels(pipeIntervals, state){
     if(state.currentLevel === state.nextLevel){
       state.nextLevel++;
@@ -44,8 +49,9 @@ export default class LevelManager {
   }
 
   currentLevel(state){
-    if(state.currentScore < 5){
+    if(!state.currentScore || state.currentScore < 5){
       //make 1000
+      state.currentLevel = 1;
       return levelOne;
     } else if (state.currentScore < 10) {
       //make 3000
