@@ -15,8 +15,7 @@ export default class View extends Component {
         <div className="endgame">
           <h2>Game over.</h2>
           <h1>{message}</h1>
-          <button
-            onClick={ this.restartGame.bind(this) }>
+          <button className="startgame">
             try again
           </button>
         </div>

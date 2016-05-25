@@ -25,8 +25,9 @@ export class BlockParty extends BlockPartyView {
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKeys.bind(this, true));
+    window.addEventListener('keydown', this.handleKeys.bind(this));
     window.addEventListener('resize',  this.handleResize.bind(this));
+    window.addEventListener('click',  this.handleClick.bind(this));
 
     const context = this.refs.canvas.getContext('2d');
     this.setState({context: context});
@@ -92,8 +93,8 @@ export class BlockParty extends BlockPartyView {
   }
 
   createPartySquare(state) {
-    let partySquare = state.levelManager.createObject(state, 'PartySquare')
-    this.addObjectToState(partySquare, 'partySquare')
+    let partySquare = state.levelManager.createObject(state, 'PartySquare');
+    this.addObjectToState(partySquare, 'partySquare');
   }
 
   createPartyPipe(state){
@@ -161,7 +162,7 @@ export class BlockParty extends BlockPartyView {
     this.update();
   }
 
-  handleKeys(value, e){
+  handleKeys(e) {
     if(this.state.inGame){
       this.state.partySquare[0].respondToUser(e.keyCode, this.state);
     }
@@ -171,6 +172,12 @@ export class BlockParty extends BlockPartyView {
     }
 
     if(!this.state.inGame && e.keyCode === 13){
+      this.restartGame();
+    }
+  }
+
+  handleClick(e) {
+    if(e.toElement.className === "startgame") {
       this.restartGame();
     }
   }
