@@ -1,29 +1,28 @@
-import { colorsSample, colorCollection } from './_helpers';
+import ColorManager from './ColorManager';
 import PipeCleaner from './PipeCleaner';
-import * as motion from './_partySquareMotion';
-import * as colorManager from './_colorManager';
+import * as motion from './_partyPhysics';
 
 export default class PartySquare {
-  constructor(args){
-    this.x = args.x;
-    this.y = args.y;
-    this.height = args.y/12;
+  constructor(state, level){
+    this.x = state.screen.width/3;
+    this.y = state.screen.height/2;
+    this.height = this.y/12;
     this.width = this.height;
     this.gravity = true;
-    this.initialVelocity = 5;
+    this.initialVelocity = this.y/50;
+    this.lateralVelocity = 4;
     this.acceleration = 1.5;
     this.jetAcceleration = 1.004;
-    this.velocity = 5;
+    this.velocity = this.y/50;
     this.points = 0;
     this.currentPipeIndex = 0;
-    this.color = colorsSample();
-    this.onDie = args.onDie;
+    this.color = state.colorManager.colorSample();
   }
 
-  render(state, blockParty) {
+  render(state) {
     this.move(state);
-    if(blockParty.partyPipes.length > 0) {
-      this.checkPipeEntry(blockParty);
+    if(state.partyPipes.length > 0) {
+      this.checkPipeEntry(state);
     }
   }
 
@@ -41,19 +40,32 @@ export default class PartySquare {
 
   destroy(){
     this.delete = true;
-    this.onDie();
   }
 
   respondToUser(key, state){
-    if(key === 38 || key === 40){
+    if(this.verticalMovementKeys(key)){
       motion.jetPack(key, this);
-    } else if(colorCollection().indexOf(key) !== 0){
-      colorManager.changeSquareColor(key, state, this);
+    } else if(this.lateralMovementKeys(key)) {
+      motion.lateralJetPack(key, this, state);
+    } else if(this.colorChangeKeys(key)){
+      state.colorManager.changeSquareColor(key, state, this);
     }
   }
 
-  checkPipeEntry(blockParty){
-    let currentPipe = blockParty.pipeEntries[this.currentPipeIndex];
+  colorChangeKeys(key){
+    return key === 65 || key === 68 || key === 70 || key === 83;
+  }
+
+  verticalMovementKeys(key){
+    return key === 38 || key === 40;
+  }
+
+  lateralMovementKeys(key){
+    return key === 37 || key === 39;
+  }
+
+  checkPipeEntry(state){
+    let currentPipe = state.pipeEntries[this.currentPipeIndex];
     let pipeCleaner = new PipeCleaner(currentPipe);
     if(this.insidePipe(pipeCleaner)){this.travelThroughPipe(pipeCleaner);}
     this.exitPipe(pipeCleaner);

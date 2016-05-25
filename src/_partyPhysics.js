@@ -29,7 +29,11 @@ export function atLowerBound(screen, obj) {
 }
 
 export function accelerate(state, obj) {
-  obj.gravity ? accelerateDown(state, obj) : accelerateUp(state, obj)
+  if (obj.gravity) {
+    accelerateDown(state, obj);
+  } else {
+    accelerateUp(state, obj);
+  }
 }
 
 export function accelerateDown(state, obj){
@@ -44,13 +48,21 @@ export function acceleratedVelocity(obj) {
   return obj.velocity *= obj.acceleration;
 }
 
+export function lateralJetPack(key, obj, state){
+  if(key === 37 && obj.x > 0){
+    obj.x -= obj.lateralVelocity;
+  } else if(key === 39){
+    obj.x += obj.lateralVelocity;
+  }
+}
+
 export function jetPack(key, obj){
   toggleGravity(obj);
   if(key === 38 && obj.gravity){
     obj.y -= (obj.velocity *= obj.jetAcceleration);
-  } else if  (key === 40 && !obj.gravity) {
+  } else if(key === 40 && !obj.gravity) {
     obj.y += (obj.velocity *= obj.jetAcceleration);
   }
-  setTimeout(function() {resetVelocity(obj)}, 200);
-  setTimeout(function() {toggleGravity(obj)}, 200);
+  setTimeout(function() {resetVelocity(obj);}, 200);
+  setTimeout(function() {toggleGravity(obj);}, 200);
 }

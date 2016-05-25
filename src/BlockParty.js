@@ -1,31 +1,33 @@
-import React, { Component } from 'react';
+import BlockPartyView from './BlockPartyView';
 import PartySquare from './PartySquare';
-import PartyPipe from './PartyPipe';
 import PipeEntry from './PipeEntry';
+import LevelManager from './LevelManager';
+import IntervalManager from './IntervalManager';
 
-export class BlockParty extends Component {
+export class BlockParty extends BlockPartyView {
   constructor(){
     super();
     this.state = {
+      inGame: false,
+      paused: false,
+      partySquare: [],
+      partyPipes: [],
+      pipeEntries: [],
+      topScore: localStorage.topscore || 0,
+      levelManager: new LevelManager(),
+      context: null,
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1,
-      },
-      context: null,
-      inGame: false,
-      currentScore: 0,
-      topScore: localStorage['topscore'] || 0
+        ratio: window.devicePixelRatio || 1
+      }
     };
-    this.partySquare =[];
-    this.partyPipes = [];
-    this.pipeEntries = [];
-    this.pipeCount = 0;
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKeys.bind(this, true));
+    window.addEventListener('keydown', this.handleKeys.bind(this));
     window.addEventListener('resize',  this.handleResize.bind(this));
+    window.addEventListener('click',  this.handleClick.bind(this));
 
     const context = this.refs.canvas.getContext('2d');
     this.setState({context: context});
@@ -36,22 +38,24 @@ export class BlockParty extends Component {
   startGame(){
     this.setState({
       inGame: true,
-      currentScore: 0
+      currentScore: 0,
+      currentLevel: 1,
+      nextLevel: 1,
     });
+    this.createPartySquare(this.state);
+  }
 
-    clearInterval(this.pipeInterval);
+  resetState(){
+    this.setState({
+      partyPipes: [],
+      partySquare: [],
+      pipeEntries: []
+    });
+  }
 
-    this.setPipes();
-    let partySquare = this.createPartySquare();
-    this.createObject(partySquare, 'partySquare');
-
-    let pipeIntervals = function(){
-      this.createPartyPipe(this.state);
-      this.createPipeEntry(this.state, this.partyPipes[this.partyPipes.length -1]);
-      this.pipeCount += 1;
-    }.bind(this);
-
-    this.pipeInterval = setInterval(function(){pipeIntervals();}, 2000);
+  restartGame(){
+    this.resetState();
+    this.startGame();
   }
 
   update() {
@@ -59,79 +63,74 @@ export class BlockParty extends Component {
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
-    this.updateObjects(this.partyPipes, 'partyPipes');
-    this.updateObjects(this.pipeEntries, 'pipeEntries');
-    this.updateObjects(this.partySquare, 'partySquare');
-    if(this.state.inGame){this.addScore(this.partySquare[0].points);}
+    this.updateObjects(this.state.partyPipes, 'partyPipes');
+    this.updateObjects(this.state.pipeEntries, 'pipeEntries');
+    this.updateObjects(this.state.partySquare, 'partySquare');
+    if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
+    this.manageIntervals();
     context.restore();
     // Next frame
-    requestAnimationFrame(() => {this.update();});
+    if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
+  }
+
+  pipeIntervals(){
+    return function(){
+      this.createPartyPipe(this.state);
+      this.createPipeEntry(this.state);
+    }.bind(this);
+  }
+
+  manageIntervals(){
+    if(this.state.currentLevel === this.state.nextLevel){
+      this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
+    }
   }
 
   endGame(){
     this.setState({inGame: false});
+    this.state.partySquare.splice(0, 1);
     this.updateTopScore();
   }
 
-  createPartySquare() {
-    return new PartySquare({
-      x: this.state.screen.width/3,
-      y: this.state.screen.height/2,
-      create: this.createObject.bind(this),
-      onDie: this.endGame.bind(this)
-    });
+  createPartySquare(state) {
+    let partySquare = state.levelManager.createObject(state, 'PartySquare');
+    this.addObjectToState(partySquare, 'partySquare');
   }
 
   createPartyPipe(state){
-    let partyPipe = new PartyPipe({
-      create: this.createObject.bind(this),
-      state: state
-    });
-    this.createObject(partyPipe, 'partyPipes');
+    let partyPipe = state.levelManager.createObject(state, 'PartyPipe');
+    this.addObjectToState(partyPipe, 'partyPipes');
   }
 
-  createPipeEntry(state, partyPipe){
-    let pipeEntry = new PipeEntry({
-      create: this.createObject.bind(this),
-      state: state,
-      partyPipe: partyPipe
-    });
-    this.createObject(pipeEntry, 'pipeEntries');
+  createPipeEntry(state){
+    let pipeEntry = state.levelManager.createObject(state, 'PipeEntry');
+    this.addObjectToState(pipeEntry, 'pipeEntries');
   }
 
-  createObject(object, type){
-    this[type].push(object);
+  addObjectToState(object, type){
+    this.state[type].push(object);
   }
 
   updateObjects(items, group){
-    let index = 0;
-    for (let item of items) {
-      if (item.delete) {
-        this[group].splice(index, 1);
+    for (let i = 0; i < items.length; i++) {
+      if (group === 'partySquare' && items[i].delete) {
+        this.endGame();
       }else{
-        items[index].render(this.state, this);
+        items[i].render(this.state);
       }
-      index++;
     }
-  }
-
-  setPipes() {
-    this.partyPipes = [];
-    this.pipeEntries = [];
-    this.pipeCount = 0;
-    this.pipeCount = 0;
   }
 
   addScore(points){
     this.setState({
-      currentScore: this.state.currentScore + points,
+      currentScore: this.state.currentScore + points
     });
   }
 
   updateTopScore() {
     if(this.state.currentScore > this.state.topScore){
       this.setState({topScore: this.state.currentScore});
-      localStorage['topscore'] = this.state.currentScore;
+      localStorage.topscore = this.state.currentScore;
     }
   }
 
@@ -145,53 +144,41 @@ export class BlockParty extends Component {
     });
   }
 
-  handleKeys(value, e){
-    if(this.state.inGame){
-      this.partySquare[0].respondToUser(e.keyCode, this.state);
-    }
+  togglePause(){
+    this.setState({paused: !this.state.paused});
+    this.gamePauser();
+  }
 
-    if(!this.state.inGame && e.keyCode === 13){
-      this.startGame();
+  gamePauser(){
+    if(this.state.paused){
+      clearInterval(this.state.pipeInterval);
+    } else {
+      this.resetInterval();
     }
   }
 
-  render() {
-    let endgame;
-    let message;
+  resetInterval() {
+    new IntervalManager().setInterval(this.pipeIntervals(), this.state);
+    this.update();
+  }
 
-    if(!this.state.inGame){
-      if(this.state.currentScore >= parseInt(this.state.topScore)){
-        message = `WOW! NEW TOP SCORE! ${this.state.currentScore}`;
-      } else {
-        message = `Score: ${this.state.currentScore}`;
-      }
-
-      endgame = (
-        <div className="endgame">
-          <h2>Game over.</h2>
-          <h1>{message}</h1>
-          <button
-            onClick={ this.startGame.bind(this) }>
-            try again
-          </button>
-        </div>
-      )
+  handleKeys(e) {
+    if(this.state.inGame){
+      this.state.partySquare[0].respondToUser(e.keyCode, this.state);
     }
 
-    return (
-      <div>
-        { endgame }
-      <span className="score current-score" >Score: {this.state.currentScore}</span>
-      <span className="score top-score" >Top Score: {this.state.topScore}</span>
-      <span className="controls fade-out" >
-        Use [←][↑][↓][→] to MOVE<br/>
-        Use [A][S][D][F] to CHANGE COLORS
-      </span>
-        <canvas ref="canvas"
-          width={this.state.screen.width * this.state.screen.ratio}
-          height={this.state.screen.height * this.state.screen.ratio}
-        />
-      </div>
-    );
+    if(this.state.inGame && e.keyCode === 32){
+      this.togglePause();
+    }
+
+    if(!this.state.inGame && e.keyCode === 13){
+      this.restartGame();
+    }
+  }
+
+  handleClick(e) {
+    if(e.toElement.className === "startgame") {
+      this.restartGame();
+    }
   }
 }
