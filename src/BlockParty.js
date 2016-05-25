@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {GameRecap} from './components/GameRecap';
 import {GameInfo} from './components/GameInfo';
-import PartySquare from './PartySquare';
-import PipeEntry from './PipeEntry';
-import LevelManager from './LevelManager';
-import IntervalManager from './IntervalManager';
-import ObjectManager from './ObjectManager';
 import EventHandler from './EventHandler';
+import LevelManager from './LevelManager';
+import * as ObjectUpdater from './ObjectUpdater';
+import * as Scoreboard from './Scoreboard';
+import * as GamePauser from './GamePauser';
 
 export class BlockParty extends Component {
   constructor(){
@@ -19,7 +18,6 @@ export class BlockParty extends Component {
       pipeEntries: [],
       topScore: localStorage.topscore || 0,
       levelManager: new LevelManager(),
-      context: null,
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -33,7 +31,7 @@ export class BlockParty extends Component {
     const context = this.refs.canvas.getContext('2d');
     this.setState({context: context});
     this.startGame();
-    requestAnimationFrame(() => {this.update();});
+    requestAnimationFrame(() => {this.updateGame();});
   }
 
   startGame(){
@@ -46,12 +44,28 @@ export class BlockParty extends Component {
     this.createPartySquare(this.state);
   }
 
-  resetState(){
-    this.setState({
-      partyPipes: [],
-      partySquare: [],
-      pipeEntries: []
-    });
+  updateGame() {
+    const context = this.state.context;
+    context.save();
+    context.scale(this.state.screen.ratio, this.state.screen.ratio);
+    context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
+    ObjectUpdater.update(this);
+    Scoreboard.update(this);
+    this.manageIntervals();
+    context.restore();
+    // Next frame
+    if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.updateGame();});}
+  }
+
+  pauseGame(){
+    this.setState({paused: !this.state.paused});
+    GamePauser.action(this, this.pipeIntervals());
+  }
+
+  endGame(){
+    this.setState({inGame: false});
+    this.state.partySquare.splice(0, 1);
+    Scoreboard.updateTopScore(this);
   }
 
   restartGame(){
@@ -59,21 +73,12 @@ export class BlockParty extends Component {
     this.startGame();
   }
 
-  update() {
-    const context = this.state.context;
-    context.save();
-    context.scale(this.state.screen.ratio, this.state.screen.ratio);
-    context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
-    this.updateObjects();
-    if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
-    this.manageIntervals();
-    context.restore();
-    // Next frame
-    if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
-  }
-
-  updateObjects() {
-    new ObjectManager(this).update(this.state);
+  resetState(){
+    this.setState({
+      partyPipes: [],
+      partySquare: [],
+      pipeEntries: []
+    });
   }
 
   pipeIntervals(){
@@ -87,12 +92,6 @@ export class BlockParty extends Component {
     if(this.state.currentLevel === this.state.nextLevel){
       this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
     }
-  }
-
-  endGame(){
-    this.setState({inGame: false});
-    this.state.partySquare.splice(0, 1);
-    this.updateTopScore();
   }
 
   createPartySquare(state) {
@@ -112,37 +111,6 @@ export class BlockParty extends Component {
 
   addObjectToState(object, type){
     this.state[type].push(object);
-  }
-
-  addScore(points){
-    this.setState({
-      currentScore: this.state.currentScore + points
-    });
-  }
-
-  updateTopScore() {
-    if(this.state.currentScore > this.state.topScore){
-      this.setState({topScore: this.state.currentScore});
-      localStorage.topscore = this.state.currentScore;
-    }
-  }
-
-  togglePause(){
-    this.setState({paused: !this.state.paused});
-    this.gamePauser();
-  }
-
-  gamePauser(){
-    if(this.state.paused){
-      clearInterval(this.state.pipeInterval);
-    } else {
-      this.resetInterval();
-    }
-  }
-
-  resetInterval() {
-    new IntervalManager().setInterval(this.pipeIntervals(), this.state);
-    this.update();
   }
 
   render() {

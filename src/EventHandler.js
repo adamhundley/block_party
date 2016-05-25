@@ -15,7 +15,7 @@ export default class EventHandler {
     }
 
     if(game.state.inGame && e.keyCode === 32){
-      game.togglePause();
+      game.pauseGame();
     }
 
     if(!game.state.inGame && e.keyCode === 13){
@@ -34,7 +34,7 @@ export default class EventHandler {
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ration: window.devicePixelRatio || 1
+        ratio: window.devicePixelRatio || 1
       }
     });
   }
