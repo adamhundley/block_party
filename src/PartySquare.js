@@ -10,6 +10,7 @@ export default class PartySquare {
     this.width = this.height;
     this.gravity = true;
     this.initialVelocity = this.y/50;
+    this.lateralVelocity = 4;
     this.acceleration = 1.5;
     this.jetAcceleration = 1.004;
     this.velocity = this.y/50;
@@ -42,8 +43,10 @@ export default class PartySquare {
   }
 
   respondToUser(key, state){
-    if(this.movementKeys(key)){
+    if(this.verticalMovementKeys(key)){
       motion.jetPack(key, this);
+    } else if(this.lateralMovementKeys(key)) {
+      motion.lateralJetPack(key, this, state);
     } else if(this.colorChangeKeys(key)){
       state.colorManager.changeSquareColor(key, state, this);
     }
@@ -53,8 +56,12 @@ export default class PartySquare {
     return key === 65 || key === 68 || key === 70 || key === 83;
   }
 
-  movementKeys(key){
+  verticalMovementKeys(key){
     return key === 38 || key === 40;
+  }
+
+  lateralMovementKeys(key){
+    return key === 37 || key === 39;
   }
 
   checkPipeEntry(state){

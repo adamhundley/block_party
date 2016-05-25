@@ -81,7 +81,6 @@ export class BlockParty extends BlockPartyView {
 
   manageIntervals(){
     if(this.state.currentLevel === this.state.nextLevel){
-      // this.setState({nextLevel: this.state.nextLevel++})
       this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
     }
   }
