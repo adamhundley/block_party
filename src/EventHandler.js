@@ -4,11 +4,19 @@ export default class EventHandler {
   }
 
   mount(game) {
-    window.screen.lockOrientation(landscape-primary);
+    window.addEventListener('orientationchange', this.handleOrientation.bind(this));
     window.addEventListener('keydown', this.handleKeys.bind(this, game));
     window.addEventListener('resize',  this.handleResize.bind(this, game));
     window.addEventListener('click',  this.handleClick.bind(this, game));
     window.addEventListener('touchstart',  this.handleTouch.bind(this, game));
+  }
+
+  handleOrientation(e) {
+    switch(window.orientation) {
+      case -90: case 90:
+        break;
+      default:
+    }
   }
 
   handleKeys(game, e) {
