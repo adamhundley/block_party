@@ -1,15 +1,18 @@
-import BlockPartyView from './BlockPartyView';
+import React, { Component } from 'react';
+import {GameRecap} from './components/GameRecap';
+import {GameInfo} from './components/GameInfo';
 import PartySquare from './PartySquare';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
 import IntervalManager from './IntervalManager';
+import * as ObjectManager from './ObjectManager';
 import EventHandler from './EventHandler';
 
-export class BlockParty extends BlockPartyView {
+export class BlockParty extends Component {
   constructor(){
     super();
     this.state = {
-      inGame: false,
+      inGame: true,
       paused: false,
       partySquare: [],
       partyPipes: [],
@@ -28,7 +31,7 @@ export class BlockParty extends BlockPartyView {
   componentDidMount() {
     const eventHandler = new EventHandler(this);
     const context = this.refs.canvas.getContext('2d');
-    this.setState({context: context, eventHandler: eventHandler});
+    this.setState({context: context});
     this.startGame();
     requestAnimationFrame(() => {this.update();});
   }
@@ -61,6 +64,7 @@ export class BlockParty extends BlockPartyView {
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
+    ObjectManager.update(this.state);
     this.updateObjects(this.state.partyPipes, 'partyPipes');
     this.updateObjects(this.state.pipeEntries, 'pipeEntries');
     this.updateObjects(this.state.partySquare, 'partySquare');
@@ -148,5 +152,18 @@ export class BlockParty extends BlockPartyView {
   resetInterval() {
     new IntervalManager().setInterval(this.pipeIntervals(), this.state);
     this.update();
+  }
+
+  render() {
+    return (
+      <div>
+        <GameRecap game={this.state} />
+        <GameInfo game={this.state} />
+        <canvas moz-opaque ref="canvas"
+          width={this.state.screen.width * this.state.screen.ratio}
+          height={this.state.screen.height * this.state.screen.ratio}
+        />
+      </div>
+    );
   }
 }
