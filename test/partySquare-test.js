@@ -61,4 +61,22 @@ describe('PartySquare', function() {
       expect(partySquare.currentPipeIndex).to.equal(0);
     });
   });
+
+  context('with default attributes', function() {
+    var state = {
+                  screen: {
+                  width: 400,
+                  height: 600
+                  },
+                  colorManager: {
+                  colorSample: function() {}
+                  }
+                };
+
+    var partySquare = new PartySquare(state);
+
+    it('should assign an x coordinate', function() {
+      expect(partySquare.x).to.equal(133.33333333333334);
+    });
+  });
 });

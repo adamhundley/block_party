@@ -76,4 +76,37 @@ describe('PipeEntry', function() {
       expect(pipeEntry.acceleration).to.equal(5);
     });
   });
+
+  context('with default attributes', function() {
+    var state = {screen: {height: 600,
+                          width: 400
+                        },
+                partyPipes: [{width: 10,
+                              speed: 1000
+                            }],
+                colorManager: {
+                  colorSample: function() {}
+                },
+                currentScore: 0};
+
+    var level = {entry: { inMotion: true,
+                          gravity: true,
+                          velocity: 6,
+                          acceleration: 5
+                        }};
+
+    var pipeEntry = new PipeEntry(state, level);
+    pipeEntry.height = 10;
+    pipeEntry.y = -1;
+
+    pipeEntry.move(state);
+
+    it('should move pipeEntries y axis', function(){
+      expect(pipeEntry.y).to.equal(29);
+    });
+
+    it('should add to currentScore', function(){
+      expect(state.currentScore).to.equal(10);
+    });
+  });
 });
