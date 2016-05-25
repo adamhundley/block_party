@@ -44,11 +44,19 @@ export default class PartySquare {
 
   respondToUser(key, state){
     if(this.verticalMovementKeys(key)){
-      Motion.jetPack(key, this);
+      Motion.jetPack(this, key);
     } else if(this.lateralMovementKeys(key)) {
-      Motion.lateralJetPack(key, this, state);
+      Motion.lateralJetPack(this, state, key);
     } else if(this.colorChangeKeys(key)){
-      state.colorManager.changeSquareColor(key, state, this);
+      state.colorManager.changeSquareColor(state, this, key);
+    }
+  }
+
+  respondToTouch(action, state) {
+    if(action === 'color'){
+      state.colorManager.toggleSquareColor(state, this);
+    } else if (action === 'jetPack') {
+      Motion.mobileJetPack(this);
     }
   }
 
