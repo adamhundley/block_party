@@ -98,6 +98,7 @@ button{
   padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
+  outline: 0;
   z-index: 1;
 }
 

@@ -4,7 +4,7 @@ export default class ColorManager{
     this.level = level;
   }
 
-  changeSquareColor(key, state, square){
+  changeSquareColor(state, square, key){
     state.currentScore += 1;
     if (key === 65) {
       square.color = this.theme[0];
@@ -15,6 +15,13 @@ export default class ColorManager{
     } else if (key === 70) {
       square.color = this.theme[3];
     }
+  }
+
+  toggleSquareColor(state, square) {
+    state.currentScore += 1;
+
+    let newColorIndex = this.theme.indexOf(square.color) + 1
+    square.color = this.theme[newColorIndex % 4]
   }
 
   colorSample(rejectColor) {
