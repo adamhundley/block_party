@@ -4,6 +4,7 @@ export default class EventHandler {
   }
 
   mount(game) {
+    window.screen.lockOrientation(landscape-primary);
     window.addEventListener('keydown', this.handleKeys.bind(this, game));
     window.addEventListener('resize',  this.handleResize.bind(this, game));
     window.addEventListener('click',  this.handleClick.bind(this, game));
