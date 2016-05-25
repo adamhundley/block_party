@@ -19,13 +19,13 @@ export default class EventHandler {
     }
 
     if(!game.state.inGame && e.keyCode === 13){
-      game.restartGame();
+      game.startGame();
     }
   }
 
   handleClick(game, e) {
     if(e.toElement.className === "startgame") {
-      game.restartGame();
+      game.startGame();
     }
   }
 

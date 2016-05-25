@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {GameRecap} from './components/GameRecap';
 import {GameInfo} from './components/GameInfo';
 import EventHandler from './EventHandler';
-import LevelManager from './LevelManager';
+import * as ObjectCreator from './ObjectCreator';
 import * as ObjectUpdater from './ObjectUpdater';
 import * as Scoreboard from './Scoreboard';
 import * as GamePauser from './GamePauser';
@@ -11,13 +11,8 @@ export class BlockParty extends Component {
   constructor(){
     super();
     this.state = {
-      inGame: true,
-      paused: false,
       partySquare: [],
-      partyPipes: [],
-      pipeEntries: [],
       topScore: localStorage.topscore || 0,
-      levelManager: new LevelManager(),
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -27,9 +22,8 @@ export class BlockParty extends Component {
   }
 
   componentDidMount() {
-    const eventHandler = new EventHandler(this);
-    const context = this.refs.canvas.getContext('2d');
-    this.setState({context: context});
+    new EventHandler(this);
+    this.setState({context: this.refs.canvas.getContext('2d')});
     this.startGame();
     requestAnimationFrame(() => {this.updateGame();});
   }
@@ -37,11 +31,14 @@ export class BlockParty extends Component {
   startGame(){
     this.setState({
       inGame: true,
+      paused: false,
+      partyPipes: [],
+      pipeEntries: [],
       currentScore: 0,
       currentLevel: 1,
       nextLevel: 1,
     });
-    this.createPartySquare(this.state);
+    ObjectCreator.createPartySquare(this.state);
   }
 
   updateGame() {
@@ -51,14 +48,12 @@ export class BlockParty extends Component {
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
     ObjectUpdater.update(this);
     Scoreboard.update(this);
-    this.manageIntervals();
+    ObjectCreator.create(this);
     context.restore();
-    // Next frame
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.updateGame();});}
   }
 
   pauseGame(){
-    this.setState({paused: !this.state.paused});
     GamePauser.action(this, this.pipeIntervals());
   }
 
@@ -68,49 +63,11 @@ export class BlockParty extends Component {
     Scoreboard.updateTopScore(this);
   }
 
-  restartGame(){
-    this.resetState();
-    this.startGame();
-  }
-
-  resetState(){
-    this.setState({
-      partyPipes: [],
-      partySquare: [],
-      pipeEntries: []
-    });
-  }
-
   pipeIntervals(){
     return function(){
-      this.createPartyPipe(this.state);
-      this.createPipeEntry(this.state);
+      ObjectCreator.createPartyPipe(this.state);
+      ObjectCreator.createPipeEntry(this.state);
     }.bind(this);
-  }
-
-  manageIntervals(){
-    if(this.state.currentLevel === this.state.nextLevel){
-      this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
-    }
-  }
-
-  createPartySquare(state) {
-    let partySquare = state.levelManager.createObject(state, 'PartySquare');
-    this.addObjectToState(partySquare, 'partySquare');
-  }
-
-  createPartyPipe(state){
-    let partyPipe = state.levelManager.createObject(state, 'PartyPipe');
-    this.addObjectToState(partyPipe, 'partyPipes');
-  }
-
-  createPipeEntry(state){
-    let pipeEntry = state.levelManager.createObject(state, 'PipeEntry');
-    this.addObjectToState(pipeEntry, 'pipeEntries');
-  }
-
-  addObjectToState(object, type){
-    this.state[type].push(object);
   }
 
   render() {
