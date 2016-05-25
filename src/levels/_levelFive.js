@@ -16,6 +16,9 @@ export function levelFive(state){
       color: state.colorManager.colorSample(),
       speed: 6,
       rate: 1000
+    },
+    entry: {
+      inMotion: false
     }
   };
 }

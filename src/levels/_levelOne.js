@@ -7,7 +7,6 @@ export function levelOne(state){
     document.body.className='default';
   }
 
-
   return {
     pipe: {
       height: state.screen.height,
@@ -16,7 +15,10 @@ export function levelOne(state){
       y: 0,
       color: state.colorManager.colorSample(),
       speed: 5.5,
-      rate: 3200
+      rate: 5000
+    },
+    entry: {
+      inMotion: false
     }
   };
 }

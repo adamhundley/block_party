@@ -66,7 +66,7 @@ export class BlockParty extends BlockPartyView {
     this.updateObjects(this.state.pipeEntries, 'pipeEntries');
     this.updateObjects(this.state.partySquare, 'partySquare');
     if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
-    this.manageLevels();
+    this.manageIntervals();
     context.restore();
     // Next frame
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
@@ -79,8 +79,11 @@ export class BlockParty extends BlockPartyView {
     }.bind(this);
   }
 
-  manageLevels(){
-    this.state.levelManager.manageLevels(this.pipeIntervals(), this.state);
+  manageIntervals(){
+    if(this.state.currentLevel === this.state.nextLevel){
+      // this.setState({nextLevel: this.state.nextLevel++})
+      this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
+    }
   }
 
   endGame(){

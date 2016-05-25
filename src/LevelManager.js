@@ -35,13 +35,10 @@ export default class LevelManager {
     return new PartySquare(state, level(state));
   }
 
-  manageLevels(pipeIntervals, state){
-    if(state.currentLevel === state.nextLevel){
-      state.nextLevel++;
-
-      let currentLevel = this.currentLevel(state);
-      new IntervalManager().levelUp(pipeIntervals, state, currentLevel);
-    }
+  manageIntervals(pipeIntervals, state){
+    state.nextLevel += 1;
+    let currentLevel = this.currentLevel(state);
+    new IntervalManager().levelUp(pipeIntervals, state, currentLevel);
   }
 
   unpauseGame(pipeIntervals, state){
@@ -53,11 +50,11 @@ export default class LevelManager {
       //make 1000
       state.currentLevel = 1;
       return levelOne;
-    } else if (state.currentScore < 10) {
+    } else if (state.currentScore < 100) {
       //make 3000
       state.currentLevel = 2;
       return levelTwo;
-    } else if (state.currentScore < 15) {
+    } else if (state.currentScore < 5000) {
       //make 5000
       state.currentLevel = 3;
       return levelThree;

@@ -32,7 +32,11 @@ export default class ColorManager{
   }
 
   moma(){
-    return ['#FF0C07', '#EDED00', '#F047A5', '#42F53D'];
+    return ['red', 'yellow', 'blue', '#000000'];
+  }
+
+  retro(){
+    return ['lime', 'lime', 'lime', 'lime']
   }
 
 }
