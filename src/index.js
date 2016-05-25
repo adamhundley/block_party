@@ -3,4 +3,4 @@ import { render } from 'react-dom';
 import { BlockParty } from './BlockParty';
 import style from './style.css';
 
-render(<BlockParty />, document.getElementById('root'));
+render(<BlockParty title='BlockParty'/>, document.getElementById('root'));
