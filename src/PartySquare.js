@@ -1,6 +1,6 @@
 import ColorManager from './ColorManager';
 import PipeCleaner from './PipeCleaner';
-import * as motion from './_partyPhysics';
+import * as Motion from './Motion';
 
 export default class PartySquare {
   constructor(state, level){
@@ -27,9 +27,9 @@ export default class PartySquare {
   }
 
   move(state){
-    motion.managePerimeterCollision(state, this);
-    motion.resetVelocity(this);
-    motion.accelerate(state, this);
+    Motion.managePerimeterCollision(state, this);
+    Motion.resetVelocity(this);
+    Motion.accelerate(state, this);
     this.draw(state);
   }
 
@@ -44,9 +44,9 @@ export default class PartySquare {
 
   respondToUser(key, state){
     if(this.verticalMovementKeys(key)){
-      motion.jetPack(key, this);
+      Motion.jetPack(key, this);
     } else if(this.lateralMovementKeys(key)) {
-      motion.lateralJetPack(key, this, state);
+      Motion.lateralJetPack(key, this, state);
     } else if(this.colorChangeKeys(key)){
       state.colorManager.changeSquareColor(key, state, this);
     }

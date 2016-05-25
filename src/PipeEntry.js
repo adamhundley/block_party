@@ -1,5 +1,5 @@
 import { colorsSample, getRandomInt } from './_helpers';
-import * as motion from './_partyPhysics';
+import * as Motion from './Motion';
 
 export default class PipeEntry {
   constructor(state, level) {
@@ -20,8 +20,8 @@ export default class PipeEntry {
   }
 
   move(state){
-    motion.managePerimeterCollision(state, this);
-    motion.accelerate(state, this);
+    Motion.managePerimeterCollision(state, this);
+    Motion.accelerate(state, this);
   }
 
   render(state){
