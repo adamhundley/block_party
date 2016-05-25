@@ -3,6 +3,7 @@ import PartySquare from './PartySquare';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
 import IntervalManager from './IntervalManager';
+import EventHandler from './EventHandler';
 
 export class BlockParty extends BlockPartyView {
   constructor(){
@@ -25,12 +26,9 @@ export class BlockParty extends BlockPartyView {
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKeys.bind(this));
-    window.addEventListener('resize',  this.handleResize.bind(this));
-    window.addEventListener('click',  this.handleClick.bind(this));
-
+    const eventHandler = new EventHandler(this);
     const context = this.refs.canvas.getContext('2d');
-    this.setState({context: context});
+    this.setState({context: context, eventHandler: eventHandler});
     this.startGame();
     requestAnimationFrame(() => {this.update();});
   }
@@ -134,16 +132,6 @@ export class BlockParty extends BlockPartyView {
     }
   }
 
-  handleResize() {
-    this.setState({
-      screen: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        ration: window.devicePixelRatio || 1
-      }
-    });
-  }
-
   togglePause(){
     this.setState({paused: !this.state.paused});
     this.gamePauser();
@@ -160,25 +148,5 @@ export class BlockParty extends BlockPartyView {
   resetInterval() {
     new IntervalManager().setInterval(this.pipeIntervals(), this.state);
     this.update();
-  }
-
-  handleKeys(e) {
-    if(this.state.inGame){
-      this.state.partySquare[0].respondToUser(e.keyCode, this.state);
-    }
-
-    if(this.state.inGame && e.keyCode === 32){
-      this.togglePause();
-    }
-
-    if(!this.state.inGame && e.keyCode === 13){
-      this.restartGame();
-    }
-  }
-
-  handleClick(e) {
-    if(e.toElement.className === "startgame") {
-      this.restartGame();
-    }
   }
 }
