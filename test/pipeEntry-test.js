@@ -9,10 +9,11 @@ describe('PipeEntry', function() {
                           width: 400
                         },
                 partyPipes: [{width: 10,
-                              color: "red",
                               speed: 1000
-                              }]
-                };
+                            }],
+                colorManager: {
+                  colorSample: function() {}
+                }};
 
     var level = {entry: { inMotion: true,
                           gravity: true,
@@ -23,7 +24,6 @@ describe('PipeEntry', function() {
     var pipeEntry = new PipeEntry(state, level);
     pipeEntry.height = 10;
     pipeEntry.y = 10;
-    pipeEntry.color = 'red';
 
     it('should assign a margin', function(){
       expect(pipeEntry.margin).to.equal(65);
@@ -57,9 +57,6 @@ describe('PipeEntry', function() {
       expect(pipeEntry.width).to.equal(10);
     });
 
-    it('should assign a color', function(){
-      expect(pipeEntry.color).to.equal('red');
-    });
     it('should assign a speed', function(){
       expect(pipeEntry.speed).to.equal(1000);
     });

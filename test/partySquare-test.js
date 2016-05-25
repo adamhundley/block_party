@@ -5,27 +5,32 @@ const PartySquare = require('../src/PartySquare');
 
 describe('PartySquare', function() {
   context('with default attributes', function() {
-    var args = {x: 400,
-                y: 600,
-                onDie: 'onDie',
+    var state = {
+                  screen: {
+                  width: 400,
+                  height: 600
+                  },
+                  colorManager: {
+                  colorSample: function() {}
+                  }
                 };
 
-    var partySquare = new PartySquare(args);
+    var partySquare = new PartySquare(state);
 
     it('should assign an x coordinate', function() {
-      expect(partySquare.x).to.equal(400);
+      expect(partySquare.x).to.equal(133.33333333333334);
     });
 
     it('should assign a y coordinate', function() {
-      expect(partySquare.y).to.equal(600);
+      expect(partySquare.y).to.equal(300);
     });
 
     it('should assign a height', function(){
-      expect(partySquare.height).to.equal(50);
+      expect(partySquare.height).to.equal(25);
     });
 
     it('should assign a width', function(){
-      expect(partySquare.width).to.equal(50);
+      expect(partySquare.width).to.equal(25);
     });
 
     it('should assign a gravity', function(){
@@ -33,7 +38,7 @@ describe('PartySquare', function() {
     });
 
     it('should assign a initialVelocity', function(){
-      expect(partySquare.initialVelocity).to.equal(5);
+      expect(partySquare.initialVelocity).to.equal(6);
     });
 
     it('should assign a acceleration', function(){
@@ -45,7 +50,7 @@ describe('PartySquare', function() {
     });
 
     it('should assign a velocity', function(){
-      expect(partySquare.velocity).to.equal(5);
+      expect(partySquare.velocity).to.equal(6);
     });
 
     it('should assign a points', function(){
@@ -55,25 +60,5 @@ describe('PartySquare', function() {
     it('should assign a currentPipe', function(){
       expect(partySquare.currentPipeIndex).to.equal(0);
     });
-
-    it('should assign a onDie', function(){
-      expect(partySquare.onDie).to.equal('onDie');
-    });
   });
-
-  // describe('destroy', function() {
-  //   context('with default attributes', function() {
-  //     var args = {x: 400,
-  //                 y: 600,
-  //                 onDie: function(){},
-  //                 };
-  //
-  //     var partySquare = new PartySquare(args);
-  //
-  //     it('destroys the partySquare', function() {
-  //       partySquare.destroy();
-  //       expect(partySquare.instanceof()).to.equal(400);
-  //     });
-  //   });
-  // });
 });
