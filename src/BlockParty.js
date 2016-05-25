@@ -5,7 +5,7 @@ import PartySquare from './PartySquare';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
 import IntervalManager from './IntervalManager';
-import * as ObjectManager from './ObjectManager';
+import ObjectManager from './ObjectManager';
 import EventHandler from './EventHandler';
 
 export class BlockParty extends Component {
@@ -64,15 +64,16 @@ export class BlockParty extends Component {
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
-    ObjectManager.update(this.state);
-    this.updateObjects(this.state.partyPipes, 'partyPipes');
-    this.updateObjects(this.state.pipeEntries, 'pipeEntries');
-    this.updateObjects(this.state.partySquare, 'partySquare');
+    this.updateObjects();
     if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
     this.manageIntervals();
     context.restore();
     // Next frame
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
+  }
+
+  updateObjects() {
+    new ObjectManager(this).update(this.state);
   }
 
   pipeIntervals(){
@@ -111,16 +112,6 @@ export class BlockParty extends Component {
 
   addObjectToState(object, type){
     this.state[type].push(object);
-  }
-
-  updateObjects(items, group){
-    for (let i = 0; i < items.length; i++) {
-      if (group === 'partySquare' && items[i].delete) {
-        this.endGame();
-      }else{
-        items[i].render(this.state);
-      }
-    }
   }
 
   addScore(points){
