@@ -1,5 +1,6 @@
 import PartyPipe from './PartyPipe';
 import PipeEntry from './PipeEntry';
+import PartySquare from './PartySquare';
 import IntervalManager from './IntervalManager';
 import {levelOne} from './levels/_levelOne';
 import {levelTwo} from './levels/_levelTwo';
@@ -29,13 +30,14 @@ export default class LevelManager {
     return new PipeEntry(state, level(state));
   }
 
-  manageLevels(pipeIntervals, state){
-    if(state.currentLevel === state.nextLevel){
-      state.nextLevel++;
+  createPartySquare(level, state){
+    return new PartySquare(state, level(state));
+  }
 
-      let currentLevel = this.currentLevel(state);
-      new IntervalManager().levelUp(pipeIntervals, state, currentLevel);
-    }
+  manageIntervals(pipeIntervals, state){
+    state.nextLevel += 1;
+    let currentLevel = this.currentLevel(state);
+    new IntervalManager().levelUp(pipeIntervals, state, currentLevel);
   }
 
   unpauseGame(pipeIntervals, state){
@@ -43,14 +45,15 @@ export default class LevelManager {
   }
 
   currentLevel(state){
-    if(state.currentScore < 5){
+    if(!state.currentScore || state.currentScore < 5){
       //make 1000
+      state.currentLevel = 1;
       return levelOne;
-    } else if (state.currentScore < 10) {
+    } else if (state.currentScore < 100) {
       //make 3000
       state.currentLevel = 2;
       return levelTwo;
-    } else if (state.currentScore < 15) {
+    } else if (state.currentScore < 5000) {
       //make 5000
       state.currentLevel = 3;
       return levelThree;

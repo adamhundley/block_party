@@ -48,11 +48,19 @@ export function acceleratedVelocity(obj) {
   return obj.velocity *= obj.acceleration;
 }
 
+export function lateralJetPack(key, obj, state){
+  if(key === 37 && obj.x > 0){
+    obj.x -= obj.lateralVelocity;
+  } else if(key === 39){
+    obj.x += obj.lateralVelocity;
+  }
+}
+
 export function jetPack(key, obj){
   toggleGravity(obj);
   if(key === 38 && obj.gravity){
     obj.y -= (obj.velocity *= obj.jetAcceleration);
-  } else if  (key === 40 && !obj.gravity) {
+  } else if(key === 40 && !obj.gravity) {
     obj.y += (obj.velocity *= obj.jetAcceleration);
   }
   setTimeout(function() {resetVelocity(obj);}, 200);
