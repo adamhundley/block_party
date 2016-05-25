@@ -1,10 +1,10 @@
-import View from './views/View';
+import BlockPartyView from './BlockPartyView';
 import PartySquare from './PartySquare';
 import PipeEntry from './PipeEntry';
 import LevelManager from './LevelManager';
 import IntervalManager from './IntervalManager';
 
-export class BlockParty extends View {
+export class BlockParty extends BlockPartyView {
   constructor(){
     super();
     this.state = {
@@ -41,8 +41,7 @@ export class BlockParty extends View {
       currentLevel: 1,
       nextLevel: 1,
     });
-    let partySquare = this.createPartySquare();
-    this.addObjectToState(partySquare, 'partySquare');
+    this.createPartySquare(this.state);
   }
 
   resetState(){
@@ -67,7 +66,7 @@ export class BlockParty extends View {
     this.updateObjects(this.state.pipeEntries, 'pipeEntries');
     this.updateObjects(this.state.partySquare, 'partySquare');
     if(this.state.inGame){this.addScore(this.state.partySquare[0].points);}
-    this.manageLevels();
+    this.manageIntervals();
     context.restore();
     // Next frame
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.update();});}
@@ -80,21 +79,22 @@ export class BlockParty extends View {
     }.bind(this);
   }
 
-  manageLevels(){
-    this.state.levelManager.manageLevels(this.pipeIntervals(), this.state);
+  manageIntervals(){
+    if(this.state.currentLevel === this.state.nextLevel){
+      // this.setState({nextLevel: this.state.nextLevel++})
+      this.state.levelManager.manageIntervals(this.pipeIntervals(), this.state);
+    }
   }
 
   endGame(){
     this.setState({inGame: false});
+    this.state.partySquare.splice(0, 1);
     this.updateTopScore();
   }
 
-  createPartySquare() {
-    return new PartySquare({
-      x: this.state.screen.width/3,
-      y: this.state.screen.height/2,
-      onDie: this.endGame.bind(this)
-    });
+  createPartySquare(state) {
+    let partySquare = state.levelManager.createObject(state, 'PartySquare')
+    this.addObjectToState(partySquare, 'partySquare')
   }
 
   createPartyPipe(state){
@@ -113,8 +113,8 @@ export class BlockParty extends View {
 
   updateObjects(items, group){
     for (let i = 0; i < items.length; i++) {
-      if (items[i].delete) {
-        this.state[group].splice(i, 1);
+      if (group === 'partySquare' && items[i].delete) {
+        this.endGame();
       }else{
         items[i].render(this.state);
       }
