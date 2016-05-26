@@ -3,25 +3,27 @@ import ColorManager from '../ColorManager';
 
 export function levelFour(state){
   if(state.colorManager.level !== 4){
-    state.colorManager = new ColorManager('moma', 4);
-    document.body.className='moma'
+    state.colorManager = new ColorManager('retro', 4);
+    document.body.className='retro'
   }
 
   return {
     pipe: {
       height: state.screen.height,
-      width: getRandomInt(state.screen.width/125, state.screen.width/12),
+      width: state.screen.width/100,
       x: state.screen.width,
       y: 0,
-      color: state.colorManager.colorSample(),
-      speed: 7,
-      rate: 2900
+      color: 'black',
+      speed: 11,
+      rate: 500
     },
     entry: {
       inMotion: true,
       gravity: Math.random() >= 0.5,
-      velocity: 1,
-      acceleration: 1
+      velocity: 6,
+      acceleration: 1,
+      maxHeight: .5,
+      minHeight: 2
     }
   };
 }

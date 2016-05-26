@@ -14,11 +14,13 @@ export function levelOne(state){
       x: state.screen.width,
       y: 0,
       color: state.colorManager.colorSample(),
-      speed: 5.5,
-      rate: 5000
+      speed: 7.5,
+      rate: 3500
     },
     entry: {
-      inMotion: false
+      inMotion: false,
+      minHeight: 2,
+      maxHeight: 0.75
     }
   };
 }

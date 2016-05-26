@@ -6,6 +6,8 @@ import * as ObjectCreator from './ObjectCreator';
 import * as ObjectUpdater from './ObjectUpdater';
 import * as Scoreboard from './Scoreboard';
 import * as GamePauser from './GamePauser';
+import LevelManager from './LevelManager';
+
 
 export class BlockParty extends Component {
   constructor(){
@@ -49,6 +51,7 @@ export class BlockParty extends Component {
     ObjectUpdater.update(this);
     Scoreboard.update(this);
     ObjectCreator.create(this);
+    this.manageIntervals();
     context.restore();
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.updateGame();});}
   }
@@ -68,6 +71,12 @@ export class BlockParty extends Component {
       ObjectCreator.createPartyPipe(this.state);
       ObjectCreator.createPipeEntry(this.state);
     }.bind(this);
+  }
+
+  manageIntervals() {
+    if(this.state.currentLevel === this.state.nextLevel){
+      new LevelManager().manageIntervals(this.pipeIntervals(), this.state);
+    }
   }
 
   render() {

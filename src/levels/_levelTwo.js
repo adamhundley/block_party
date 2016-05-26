@@ -13,11 +13,16 @@ export function levelTwo(state){
       x: state.screen.width,
       y: 0,
       color: state.colorManager.colorSample(),
-      speed: 7,
-      rate: 5000
+      speed: 7.5,
+      rate: 2500
     },
     entry: {
-      inMotion: false
+      inMotion: true,
+      gravity: Math.random() >= 0.5,
+      velocity: 2,
+      acceleration: 1,
+      minHeight: 2,
+      maxHeight: 0.75
     }
   };
 }
