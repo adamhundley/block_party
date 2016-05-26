@@ -6,7 +6,7 @@ export function GameInfo({ game }) {
   );
 
   const topScore = (
-    <span className="score top-score" >Top Score: {game.topScore}</span>
+    <span className="score top-score" >My Top Score: {game.topScore} // Global Top Score: {game.globalTopScore}</span>
   );
 
   const controls = (

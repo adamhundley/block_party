@@ -1,5 +1,3 @@
-import * as firebaseDB from './firebase';
-
 export function update(game) {
   if(game.state.inGame) {
     game.setState({
@@ -8,10 +6,9 @@ export function update(game) {
   }
 }
 
-export function updateTopScore(game) {
-  debugger
+export function updateTopScore(game, firebase) {
   updateUserTopScore(game);
-  updateGlobalTopScore(game);
+  updateGlobalTopScore(game, firebase);
 }
 
 function updateUserTopScore(game) {
@@ -21,10 +18,23 @@ function updateUserTopScore(game) {
   }
 }
 
-function updateGlobalTopScore(game) {
-  if(game.state.topScore > game.state.globalTopScore){
-    firebaseDB.ref('highscore/').set({
+function updateGlobalTopScore(game, firebase) {
+  if(game.state.currentScore > game.state.globalTopScore){
+    firebase.set({
       topscore: game.state.topScore
     })
+    game.setState({globalTopScore: game.state.currentScore});
   }
 }
+
+export function globalTopScore(firebase, game) {
+
+  let topScore = null;
+
+  firebase.once('value').then(function(snapshot){
+    topScore = snapshot.val().topscore
+    game.setState({
+      globalTopScore: topScore
+    })
+  });
+};
