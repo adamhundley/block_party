@@ -46,21 +46,21 @@ export default class LevelManager {
   }
 
   currentLevel(state){
-    if(!state.currentScore || state.currentScore < 5){
-      //make 1000
+    if(!state.currentScore || state.currentScore < 750){
       state.currentLevel = 1;
       return levelOne;
-    } else if (state.currentScore < 100) {
-      //make 3000
+    } else if (state.currentScore < 2000) {
       state.currentLevel = 2;
-      return levelTwo;
+      return levelFive;
     } else if (state.currentScore < 5000) {
-      //make 5000
       state.currentLevel = 3;
       return levelThree;
-    } else if (state.currentScore < 7000) {
+    } else if (state.currentScore < 10000) {
       state.currentLevel = 4;
       return levelFour;
+    } else {
+      state.currentLevel = 5;
+      return levelFive;
     }
   }
 }
