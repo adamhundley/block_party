@@ -80,12 +80,13 @@ canvas {
 .top-score {
   right: 20px;
 }
+
 .score {
   display: block;
   position: absolute;
   top: 15px;
   z-index: 1;
-  font-size: 24px;
+  font-size: 20px;
 }
 .controls {
   display: block;
@@ -142,7 +143,7 @@ button{
     font-size: 18px;
   }
   .score {
-    font-size: 18px;
+    font-size: 15px;
   }
   .controls {
     font-size: 12px;
@@ -158,7 +159,7 @@ button{
     font-size: 14px;
   }
   .score {
-    font-size: 14px;
+    font-size: 12px;
   }
   .controls {
     font-size: 8px;
@@ -174,7 +175,7 @@ button{
     font-size: 10px;
   }
   .score {
-    font-size: 10px;
+    font-size: 8px;
   }
   .controls {
     font-size: 7px;

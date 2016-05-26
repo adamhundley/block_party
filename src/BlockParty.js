@@ -1,6 +1,7 @@
+import { firebaseDB } from './firebase';
 import React, { Component } from 'react';
-import {GameRecap} from './components/GameRecap';
-import {GameInfo} from './components/GameInfo';
+import { GameRecap } from './components/GameRecap';
+import { GameInfo } from './components/GameInfo';
 import EventHandler from './EventHandler';
 import * as ObjectCreator from './ObjectCreator';
 import * as ObjectUpdater from './ObjectUpdater';
@@ -8,13 +9,13 @@ import * as Scoreboard from './Scoreboard';
 import * as GamePauser from './GamePauser';
 import LevelManager from './LevelManager';
 
-
 export class BlockParty extends Component {
   constructor(){
     super();
     this.state = {
       partySquare: [],
       topScore: localStorage.topscore || 0,
+      globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -62,7 +63,7 @@ export class BlockParty extends Component {
   endGame(){
     this.setState({inGame: false});
     this.state.partySquare.splice(0, 1);
-    Scoreboard.updateTopScore(this);
+    Scoreboard.updateTopScore(this, firebaseDB);
   }
 
   pipeIntervals(){
