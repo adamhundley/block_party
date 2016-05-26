@@ -14,7 +14,7 @@ export function levelTwo(state){
       y: 0,
       color: state.colorManager.colorSample(),
       speed: 7.5,
-      rate: 2500
+      rate: 2300
     },
     entry: {
       inMotion: true,

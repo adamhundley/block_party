@@ -14,8 +14,8 @@ export function levelFour(state){
       x: state.screen.width,
       y: 0,
       color: 'black',
-      speed: 11,
-      rate: 500
+      speed: 10,
+      rate: 1500
     },
     entry: {
       inMotion: true,

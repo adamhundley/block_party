@@ -50,7 +50,6 @@ export class BlockParty extends Component {
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
     ObjectUpdater.update(this);
     Scoreboard.update(this);
-    ObjectCreator.create(this);
     this.manageIntervals();
     context.restore();
     if(!this.state.paused) {this.animation = requestAnimationFrame(() => {this.updateGame();});}

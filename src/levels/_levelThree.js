@@ -15,7 +15,7 @@ export function levelThree(state){
       y: 0,
       color: state.colorManager.colorSample(),
       speed: 7,
-      rate: 3000
+      rate: 2500
     },
     entry: {
       inMotion: true,
