@@ -9,7 +9,6 @@ import {levelFour} from './levels/_levelFour';
 import {levelFive} from './levels/_levelFive';
 import {levelSix} from './levels/_levelSix';
 
-
 export default class LevelManager {
   createObject(state, objectType){
     return this.manageObjects(state, objectType);
