@@ -1,11 +1,5 @@
 import LevelManager from './LevelManager';
 
-export function create(game) {
-  if(game.state.currentLevel === game.state.nextLevel){
-    new LevelManager().manageIntervals(game.pipeIntervals(), game.state);
-  }
-}
-
 export function createPartySquare(state) {
   let partySquare = new LevelManager().createObject(state, 'PartySquare');
   addObjectToState(state, partySquare, 'partySquare');

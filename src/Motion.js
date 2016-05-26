@@ -58,26 +58,30 @@ export function lateralJetPack(obj, state, key){
 
 export function mobileJetPack(obj) {
   if(obj.gravity){
-    toggleGravity(obj);
-    obj.y -= (obj.velocity *= obj.jetAcceleration);
-    resetGravityAndVelocity(obj);
+    jetPackDown(obj);
   } else if(!obj.gravity) {
-    toggleGravity(obj);
-    obj.y += (obj.velocity *= obj.jetAcceleration);
-    resetGravityAndVelocity(obj);
+    jetPackUp(obj);
   }
 }
 
 export function jetPack(obj, key) {
   if(key === 38 && obj.gravity){
-    toggleGravity(obj);
-    obj.y -= (obj.velocity *= obj.jetAcceleration);
-    resetGravityAndVelocity(obj);
+    jetPackDown(obj);
   } else if(key === 40 && !obj.gravity) {
-    toggleGravity(obj);
-    obj.y += (obj.velocity *= obj.jetAcceleration);
-    resetGravityAndVelocity(obj);
+    jetPackUp(obj);
   }
+}
+
+function jetPackDown(obj) {
+  toggleGravity(obj);
+  obj.y -= (obj.velocity *= obj.jetAcceleration);
+  resetGravityAndVelocity(obj);
+}
+
+function jetPackUp(obj) {
+  toggleGravity(obj);
+  obj.y += (obj.velocity *= obj.jetAcceleration);
+  resetGravityAndVelocity(obj);
 }
 
 function resetGravityAndVelocity(obj) {
