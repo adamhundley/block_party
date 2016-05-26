@@ -3,7 +3,7 @@ import ColorManager from '../ColorManager';
 
 export function levelFive(state){
   if(state.colorManager.level !== 5){
-    state.colorManager = new ColorManager('moma', 5)
+    state.colorManager = new ColorManager('moma', 5);
     document.body.className='moma';
   }
 
