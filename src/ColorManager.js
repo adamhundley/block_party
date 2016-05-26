@@ -20,12 +20,12 @@ export default class ColorManager{
   toggleSquareColor(state, square) {
     state.currentScore += 1;
 
-    let newColorIndex = this.theme.indexOf(square.color) + 1
-    square.color = this.theme[newColorIndex % 4]
+    let newColorIndex = this.theme.indexOf(square.color) + 1;
+    square.color = this.theme[newColorIndex % 4];
   }
 
   colorSample(rejectColor) {
-    let set = [0, 1, 2, 3]
+    let set = [0, 1, 2, 3];
 
     if(rejectColor) {
       set.splice(this.theme.indexOf(rejectColor), 1);
@@ -43,7 +43,10 @@ export default class ColorManager{
   }
 
   retro(){
-    return ['lime', 'lime', 'lime', 'lime']
+    return ['lime', 'lime', 'lime', 'lime'];
   }
 
+  tron(){
+    return ['#ff0099', '#83f52c', '#18CAE6', '#f3f315'];
+  }
 }
