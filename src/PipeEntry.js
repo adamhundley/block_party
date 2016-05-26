@@ -1,12 +1,12 @@
 import { colorsSample, getRandomInt } from './_helpers';
-import * as motion from './_partyPhysics';
+import * as Motion from './Motion';
 
 export default class PipeEntry {
   constructor(state, level) {
     this.margin = 65;
     this.partyPipe = this.currentPartyPipe(state);
-    this.maxHeight = state.screen.height * 0.75;
-    this.minHeight = state.screen.height / 2;
+    this.maxHeight = state.screen.height * level.entry.maxHeight;
+    this.minHeight = state.screen.height / level.entry.minHeight;
     this.height = getRandomInt(this.minHeight, this.maxHeight);
     this.x = state.screen.width;
     this.y = getRandomInt(this.margin, state.screen.height - (this.margin + this.height));
@@ -20,8 +20,8 @@ export default class PipeEntry {
   }
 
   move(state){
-    motion.managePerimeterCollision(state, this);
-    motion.accelerate(state, this);
+    Motion.managePerimeterCollision(state, this);
+    Motion.accelerate(state, this);
   }
 
   render(state){

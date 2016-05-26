@@ -3,22 +3,27 @@ import ColorManager from '../ColorManager';
 
 export function levelFive(state){
   if(state.colorManager.level !== 5){
-    state.colorManager = new ColorManager('default', 5)
+    state.colorManager = new ColorManager('moma', 5)
+    document.body.className='moma';
   }
 
   return {
     pipe: {
-      maxWidth: state.screen.width/12,
       height: state.screen.height,
-      width: getRandomInt(10, state.screen.width/12),
+      width: getRandomInt(state.screen.width/10, state.screen.width/5),
       x: state.screen.width,
       y: 0,
       color: state.colorManager.colorSample(),
-      speed: 6,
-      rate: 1000
+      speed: 7.5,
+      rate: 2000
     },
     entry: {
-      inMotion: false
+      inMotion: true,
+      gravity: Math.random() >= 0.5,
+      velocity: 1,
+      acceleration: 1,
+      minHeight: 2,
+      maxHeight: 0.75
     }
   };
 }
