@@ -81,12 +81,17 @@ canvas {
   right: 20px;
 }
 
+
 .score {
   display: block;
   position: absolute;
   top: 15px;
   z-index: 1;
   font-size: 20px;
+}
+
+.local {
+  top: 40px
 }
 .controls {
   display: block;
