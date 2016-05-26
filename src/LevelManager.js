@@ -7,6 +7,7 @@ import {levelTwo} from './levels/_levelTwo';
 import {levelThree} from './levels/_levelThree';
 import {levelFour} from './levels/_levelFour';
 import {levelFive} from './levels/_levelFive';
+import {levelSix} from './levels/_levelSix';
 
 export default class LevelManager {
   createObject(state, objectType){
@@ -56,9 +57,12 @@ export default class LevelManager {
     } else if (state.currentScore < 10000) {
       state.currentLevel = 4;
       return levelFour;
-    } else {
+    } else if (state.currentScore < 15000) {
       state.currentLevel = 5;
       return levelFive;
+    } else {
+      state.currentLevel = 6;
+      return levelSix;
     }
   }
 }
