@@ -1,16 +1,53 @@
-* {
-  font-family: monospace;
-  color: #ffffff;
-}
-
 body {
   padding: 0;
   margin: 0;
   font-weight: 200;
 }
+
+.default {
+  font-family: monospace;
+  background-color: #2c3e50;
+  color: #ffffff;
+}
+
+.default button {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+.default button:hover{
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.moma {
+  font-family: sans-serif;;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.moma button {
+  border: 2px solid #000000;
+}
+
+.retro {
+  font-family: monospace;
+  background-color: #000000;
+  color: lime;
+}
+
+.retro button {
+  border: 2px solid lime;
+  color: lime;
+}
+
+.retro button:hover{
+  background-color: lime;
+  color: #000000;
+}
+
 canvas {
   display: block;
-  background-color: #2c3e50;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -19,9 +56,11 @@ canvas {
   width: 100%;
   height: 100%;
 }
+
 .current-score {
   left: 20px;
 }
+
 .top-score {
   right: 20px;
 }
@@ -39,7 +78,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 1;
-  font-size: 15px;
+  font-size: 110%;
   text-align: center;
   line-height: 1.6;
 }
@@ -54,17 +93,13 @@ canvas {
   text-align: center;
 }
 button{
-  border: 2px solid #ffffff;
   background-color: transparent;
   font-size: 20px;
   padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
+  outline: 0;
   z-index: 1;
-}
-button:hover{
-  background-color: #ffffff;
-  color: #000000;
 }
 
 @-webkit-keyframes fade-out {
@@ -130,5 +165,16 @@ button:hover{
   }
   .endgame h2 {
     font-size: 15px;
+  }
+}
+
+/*Lock landscape*/
+@media (orientation: portrait) {
+  body {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
   }
 }

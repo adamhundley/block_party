@@ -14,7 +14,7 @@ export function toggleGravity(obj) {
 
 export function resetVelocity(obj){
   obj.velocity = obj.initialVelocity;
-};
+}
 
 export function atVerticalLimit(screen, obj) {
   return atUpperBound(obj) || atLowerBound(obj);
@@ -29,7 +29,11 @@ export function atLowerBound(screen, obj) {
 }
 
 export function accelerate(state, obj) {
-  obj.gravity ? accelerateDown(state, obj) : accelerateUp(state, obj)
+  if (obj.gravity) {
+    accelerateDown(state, obj);
+  } else {
+    accelerateUp(state, obj);
+  }
 }
 
 export function accelerateDown(state, obj){
@@ -44,13 +48,43 @@ export function acceleratedVelocity(obj) {
   return obj.velocity *= obj.acceleration;
 }
 
-export function jetPack(key, obj){
-  toggleGravity(obj);
-  if(key === 38 && obj.gravity){
-    obj.y -= (obj.velocity *= obj.jetAcceleration);
-  } else if  (key === 40 && !obj.gravity) {
-    obj.y += (obj.velocity *= obj.jetAcceleration);
+export function lateralJetPack(obj, state, key){
+  if(key === 37 && obj.x > 0){
+    obj.x -= obj.lateralVelocity;
+  } else if(key === 39){
+    obj.x += obj.lateralVelocity;
   }
-  setTimeout(function() {resetVelocity(obj)}, 200);
-  setTimeout(function() {toggleGravity(obj)}, 200);
+}
+
+export function mobileJetPack(obj) {
+  if(obj.gravity){
+    jetPackDown(obj);
+  } else if(!obj.gravity) {
+    jetPackUp(obj);
+  }
+}
+
+export function jetPack(obj, key) {
+  if(key === 38 && obj.gravity){
+    jetPackDown(obj);
+  } else if(key === 40 && !obj.gravity) {
+    jetPackUp(obj);
+  }
+}
+
+function jetPackDown(obj) {
+  toggleGravity(obj);
+  obj.y -= (obj.velocity *= obj.jetAcceleration);
+  resetGravityAndVelocity(obj);
+}
+
+function jetPackUp(obj) {
+  toggleGravity(obj);
+  obj.y += (obj.velocity *= obj.jetAcceleration);
+  resetGravityAndVelocity(obj);
+}
+
+function resetGravityAndVelocity(obj) {
+  setTimeout(function() {resetVelocity(obj);}, 200);
+  setTimeout(function() {toggleGravity(obj);}, 200);
 }
