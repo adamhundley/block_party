@@ -44,25 +44,17 @@ export default class LevelManager {
     new IntervalManager().setInterval(pipeIntervals, state);
   }
 
-  currentLevel(state){
-    if(!state.currentScore || state.currentScore < 750){
-      state.currentLevel = 1;
-      return levelOne;
-    } else if (state.currentScore < 2000) {
-      state.currentLevel = 2;
-      return levelTwo;
-    } else if (state.currentScore < 5000) {
-      state.currentLevel = 3;
-      return levelThree;
-    } else if (state.currentScore < 10000) {
-      state.currentLevel = 4;
-      return levelFour;
-    } else if (state.currentScore < 15000) {
-      state.currentLevel = 5;
-      return levelFive;
-    } else {
-      state.currentLevel = 6;
-      return levelSix;
-    }
+  currentLevel({currentScore, currentLevel}){
+    if (!currentScore) return levelOne;
+
+    if (currentScore > 750)   { currentLevel = 1; }
+    if (currentScore > 2000)  { currentLevel = 2; }
+    if (currentScore > 5000)  { currentLevel = 3; }
+    if (currentScore > 10000) { currentLevel = 4; }
+    if (currentScore > 15000) { currentLevel = 5; }
+    if (currentScore > 20000) { currentLevel = 6; }
+
+    return [levelOne, levelTwo, levelThree][currentLevel - 1];
+
   }
 }

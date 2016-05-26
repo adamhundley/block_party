@@ -44,7 +44,7 @@ export class BlockParty extends Component {
   }
 
   updateGame() {
-    const context = this.state.context;
+    const { context } = this.state;
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);

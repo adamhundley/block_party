@@ -5,11 +5,11 @@ export function update(game) {
 }
 
 function updateObjects(game, group) {
-  for (let i = 0; i < game.state[group].length; i++) {
-    if (group === 'partySquare' && game.state[group][i].delete) {
+  for (let obj of game.state[group]) {
+    if (group === 'partySquare' && object.delete) {
       game.endGame();
     } else{
-      game.state[group][i].render(game.state);
+      object.render(game.state);
     }
   }
 }

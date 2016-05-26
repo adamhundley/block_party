@@ -30,7 +30,7 @@ export default class PartySquare {
     Motion.managePerimeterCollision(state, this);
     Motion.resetVelocity(this);
     Motion.accelerate(state, this);
-    this.draw(state);
+    return this;
   }
 
   draw(state){

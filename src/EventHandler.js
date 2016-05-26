@@ -4,24 +4,23 @@ export default class EventHandler {
   }
 
   mount(game) {
-    window.addEventListener('keydown', this.handleKeys.bind(this, game));
+    window.addEventListener('keydown', () => handleKeys.bind(game));
     window.addEventListener('resize',  this.handleResize.bind(this, game));
     window.addEventListener('click',  this.handleClick.bind(this, game));
     window.addEventListener('touchstart',  this.handleTouch.bind(this, game));
   }
 
   handleKeys(game, e) {
+    const keyCodes = {
+      32: game.pauseGame,
+      13: game.startGame
+    }
+
     if(game.state.inGame){
       game.state.partySquare[0].respondToUser(e.keyCode, game.state);
+      keyCodes[e.keyCode]()
     }
 
-    if(game.state.inGame && e.keyCode === 32){
-      game.pauseGame();
-    }
-
-    if(!game.state.inGame && e.keyCode === 13){
-      game.startGame();
-    }
   }
 
   handleClick(game, e) {
