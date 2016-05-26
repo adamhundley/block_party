@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
@@ -22,6 +22,9 @@ module.exports = {
     loaders: [{
       test: /\.css$/,
       loader: "style-loader!css-loader"
+    },{
+      test: /\.json$/,
+      loader: "json-loader"
     },{
       test: /\.js$/,
       loaders: ['babel'],
