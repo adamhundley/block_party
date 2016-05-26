@@ -8,7 +8,7 @@ For local play:
 
 ```
 
-  git clone https://github.com/adamhundley/block_party
+git clone https://github.com/adamhundley/block_party
 npm install
 npm start
 visit http://localhost:3000
