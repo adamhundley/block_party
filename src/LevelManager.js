@@ -51,7 +51,7 @@ export default class LevelManager {
       return levelOne;
     } else if (state.currentScore < 2000) {
       state.currentLevel = 2;
-      return levelFive;
+      return levelTwo;
     } else if (state.currentScore < 5000) {
       state.currentLevel = 3;
       return levelThree;
