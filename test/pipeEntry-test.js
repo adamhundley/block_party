@@ -18,7 +18,9 @@ describe('PipeEntry', function() {
     var level = {entry: { inMotion: true,
                           gravity: true,
                           velocity: 6,
-                          acceleration: 5
+                          acceleration: 5,
+                          minHeight: 2,
+                          maxHeight: 0.75
                         }};
 
     var pipeEntry = new PipeEntry(state, level);

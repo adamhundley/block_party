@@ -75,7 +75,29 @@ describe('PartySquare', function() {
 
     var partySquare = new PartySquare(state);
 
-    it('should assign an x coordinate', function() {
+
+    it('should move the square down', function() {
+      partySquare.respondToUser(38, state)
+
+      expect(partySquare.y).to.equal(293.976);
+    });
+
+
+    it('should move the square up', function() {
+      partySquare.respondToUser(40, state)
+
+      expect(partySquare.y).to.equal(300.024096);
+    });
+
+    it('should move the square right', function() {
+      partySquare.respondToUser(37, state)
+
+      expect(partySquare.x).to.equal(129.33333333333334);
+    });
+
+    it('should move the square left', function() {
+      partySquare.respondToUser(39, state)
+
       expect(partySquare.x).to.equal(133.33333333333334);
     });
   });
