@@ -13,7 +13,7 @@ export function GameInfo({ game }) {
   );
 
   const controls = (
-    <span className="controls fade-out" >
+    <span className="controls" >
       Use [←][↑][↓][→] to MOVE<br/>
       Use [A][S][D][F] to CHANGE COLORS
     </span>
