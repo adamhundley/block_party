@@ -1,3 +1,5 @@
+import { firebaseDb } from './firebase';
+
 export function update(game) {
   if(game.state.inGame) {
     game.setState({
@@ -6,9 +8,9 @@ export function update(game) {
   }
 }
 
-export function updateTopScore(game, firebase) {
+export function updateTopScore(game) {
   updateUserTopScore(game);
-  updateGlobalTopScore(game, firebase);
+  updateGlobalTopScore(game);
 }
 
 function updateUserTopScore(game) {
@@ -18,24 +20,24 @@ function updateUserTopScore(game) {
   }
 }
 
-function updateGlobalTopScore(game, firebase) {
-  globalTopScore(firebase, game);
+function updateGlobalTopScore(game) {
+  globalTopScore(game);
   if(game.state.currentScore > game.state.globalTopScore){
-    firebase.set({
+    firebaseDb.set({
       topScore: game.state.topScore
     });
     game.setState({globalTopScore: game.state.currentScore});
   }
 }
 
-export function globalTopScore(firebase, game) {
+export function globalTopScore(game) {
   let topScore = null;
 
-  firebase.once('value').then(function(snapshot){
-    topScore = snapshot.val().topScore
+  firebaseDb.once('value').then(function(snapshot){
+    topScore = snapshot.val().topScore;
     game.setState({
       globalTopScore: topScore
-    })
-    return topScore
+    });
+    return topScore;
   });
-};
+}

@@ -8,4 +8,4 @@ const config = {
   };
 
 const firebaseApp = firebase.initializeApp(config);
-export const firebaseDB = firebaseApp.database().ref('highscore/');
+export const firebaseDb = firebaseApp.database().ref('highscore/');

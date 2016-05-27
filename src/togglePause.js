@@ -1,6 +1,6 @@
 import IntervalManager from './IntervalManager';
 
-export function action(game){
+export function togglePause(game){
   game.setState({paused: !game.state.paused});
   pauseInterval(game);
 }
