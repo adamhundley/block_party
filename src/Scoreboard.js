@@ -33,7 +33,7 @@ export function globalTopScore(firebase, game) {
   let topScore = null;
 
   firebase.once('value').then(function(snapshot){
-    topScore = snapshot.val().topscore
+    topScore = snapshot.val().topScore
     game.setState({
       globalTopScore: topScore
     })
