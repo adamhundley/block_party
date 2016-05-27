@@ -19,10 +19,11 @@ function updateUserTopScore(game) {
 }
 
 function updateGlobalTopScore(game, firebase) {
+  globalTopScore(firebase, game);
   if(game.state.currentScore > game.state.globalTopScore){
     firebase.set({
       topscore: game.state.topScore
-    })
+    });
     game.setState({globalTopScore: game.state.currentScore});
   }
 }
