@@ -29,7 +29,6 @@ function updateGlobalTopScore(game, firebase) {
 }
 
 export function globalTopScore(firebase, game) {
-
   let topScore = null;
 
   firebase.once('value').then(function(snapshot){
@@ -37,5 +36,6 @@ export function globalTopScore(firebase, game) {
     game.setState({
       globalTopScore: topScore
     })
+    return topScore
   });
 };
