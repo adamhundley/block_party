@@ -1,21 +1,20 @@
-import { firebaseDB } from './firebase';
 import React, { Component } from 'react';
 import { GameRecap } from './components/GameRecap';
 import { GameInfo } from './components/GameInfo';
-import EventHandler from './EventHandler';
-import * as ObjectCreator from './ObjectCreator';
-import * as ObjectUpdater from './ObjectUpdater';
+import { mountEventHandler } from './eventHandler';
+import { createPipes, createPartySquare } from './createObjects';
+import { updateObjects } from './updateObjects';
+import { togglePause } from './togglePause';
 import * as Scoreboard from './Scoreboard';
-import * as GamePauser from './GamePauser';
 import LevelManager from './LevelManager';
 
-export class BlockParty extends Component {
+export class BlocParty extends Component {
   constructor(){
     super();
     this.state = {
       partySquare: [],
       topScore: localStorage.topscore || 0,
-      globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
+      globalTopScore: Scoreboard.globalTopScore(this) || "offline",
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -25,7 +24,7 @@ export class BlockParty extends Component {
   }
 
   componentDidMount() {
-    new EventHandler(this);
+    mountEventHandler(this);
     this.setState({context: this.refs.canvas.getContext('2d')});
     this.startGame();
     requestAnimationFrame(() => {this.updateGame();});
@@ -41,7 +40,7 @@ export class BlockParty extends Component {
       currentLevel: 1,
       nextLevel: 1,
     });
-    ObjectCreator.createPartySquare(this.state);
+    createPartySquare(this.state);
   }
 
   updateGame() {
@@ -49,7 +48,7 @@ export class BlockParty extends Component {
     context.save();
     context.scale(this.state.screen.ratio, this.state.screen.ratio);
     context.clearRect(0, 0, this.state.screen.width, this.state.screen.height);
-    ObjectUpdater.update(this);
+    updateObjects(this);
     Scoreboard.update(this);
     this.manageIntervals();
     context.restore();
@@ -57,20 +56,17 @@ export class BlockParty extends Component {
   }
 
   pauseGame(){
-    GamePauser.action(this, this.pipeIntervals());
+    togglePause(this, this.pipeIntervals());
   }
 
   endGame(){
     this.setState({inGame: false});
     this.state.partySquare.splice(0, 1);
-    Scoreboard.updateTopScore(this, firebaseDB);
+    Scoreboard.updateTopScore(this);
   }
 
   pipeIntervals(){
-    return function(){
-      ObjectCreator.createPartyPipe(this.state);
-      ObjectCreator.createPipeEntry(this.state);
-    }.bind(this);
+    return function(){createPipes(this.state);}.bind(this);
   }
 
   manageIntervals() {

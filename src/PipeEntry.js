@@ -19,15 +19,24 @@ export default class PipeEntry {
     this.acceleration = level.entry.acceleration;
   }
 
-  move(state){
-    Motion.managePerimeterCollision(state, this);
-    Motion.accelerate(state, this);
+  render(state){
+    this.move(state);
+    this.draw(state);
   }
 
-  render(state){
-    if(this.inMotion) {this.move(state);}
+  draw(state) {
     state.context.fillStyle = this.color;
     state.context.fillRect(this.x -= this.speed, this.y, this.width, this.height);
+  }
+
+  move(state){
+    if(this.inMotion) { this.verticalMovement(state); }
+    this.x -= this.speed;
+  }
+
+  verticalMovement(state) {
+    Motion.managePerimeterCollision(state, this);
+    Motion.accelerate(state, this);
   }
 
   currentPartyPipe(state){

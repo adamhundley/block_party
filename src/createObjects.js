@@ -5,12 +5,17 @@ export function createPartySquare(state) {
   addObjectToState(state, partySquare, 'partySquare');
 }
 
-export function createPartyPipe(state){
+export function createPipes(state) {
+  createPartyPipe(state);
+  createPipeEntry(state);
+}
+
+function createPartyPipe(state){
   let partyPipe = new LevelManager().createObject(state, 'PartyPipe');
   addObjectToState(state, partyPipe, 'partyPipes');
 }
 
-export function createPipeEntry(state){
+function createPipeEntry(state){
   let pipeEntry = new LevelManager().createObject(state, 'PipeEntry');
   addObjectToState(state, pipeEntry, 'pipeEntries');
 }

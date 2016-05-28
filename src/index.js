@@ -1,9 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BlockParty } from './BlockParty';
+import { BlocParty } from './BlocParty';
 import style from './style.css';
-require('../assets/favicon.ico');
+import '../assets/favicon.ico';
 
-
-
-render(<BlockParty title='BlockParty'/>, document.getElementById('root'));
+render(<BlocParty title='BlocParty'/>, document.getElementById('root'));

@@ -1,9 +1,9 @@
-import { colorsSample, getRandomInt } from '../_helpers';
+import { getRandomInt } from '../_helpers';
 import ColorManager from '../ColorManager';
 
 export function levelTwo(state){
   if(state.colorManager.level !== 2){
-    state.colorManager = new ColorManager('default', 2)
+    state.colorManager = new ColorManager('default', 2);
   }
 
   return {

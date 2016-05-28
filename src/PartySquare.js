@@ -21,21 +21,19 @@ export default class PartySquare {
 
   render(state) {
     this.move(state);
-    if(state.partyPipes.length > 0) {
-      this.checkPipeEntry(state);
-    }
+    this.draw(state);
+    if(state.partyPipes.length > 0) {this.checkPipeEntry(state);}
+  }
+
+  draw(state){
+    state.context.fillStyle = this.color;
+    state.context.fillRect(this.x, this.y, this.width, this.height);
   }
 
   move(state){
     Motion.managePerimeterCollision(state, this);
     Motion.resetVelocity(this);
     Motion.accelerate(state, this);
-    this.draw(state);
-  }
-
-  draw(state){
-    state.context.fillStyle = this.color;
-    state.context.fillRect(this.x, this.y, this.width, this.height);
   }
 
   destroy(){
