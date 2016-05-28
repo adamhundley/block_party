@@ -8,8 +8,17 @@ export default class PartyPipe {
     this.speed = attributes.pipe.speed;
   }
 
-  render(state){
+  move() {
+    this.x -= this.speed;
+  }
+
+  draw(state) {
     state.context.fillStyle = this.color;
-    state.context.fillRect(this.x -= this.speed, this.y, this.width, this.height);
+    state.context.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  render(state){
+    this.move();
+    this.draw(state);
   }
 }
