@@ -1,4 +1,4 @@
-import { colorsSample, getRandomInt } from '../_helpers';
+import { getRandomInt } from '../_helpers';
 import ColorManager from '../ColorManager';
 
 export function levelFive(state){

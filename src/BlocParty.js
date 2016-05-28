@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { GameRecap } from './components/GameRecap';
 import { GameInfo } from './components/GameInfo';
 import { mountEventHandler } from './eventHandler';
-import * as ObjectCreator from './ObjectCreator';
+import { createPipes, createPartySquare } from './createObjects';
 import { updateObjects } from './updateObjects';
-import * as Scoreboard from './Scoreboard';
 import { togglePause } from './togglePause';
+import * as Scoreboard from './Scoreboard';
 import LevelManager from './LevelManager';
 
-export class BlockParty extends Component {
+export class BlocParty extends Component {
   constructor(){
     super();
     this.state = {
       partySquare: [],
       topScore: localStorage.topscore || 0,
-      globalTopScore: Scoreboard.globalTopScore(this),
+      globalTopScore: Scoreboard.globalTopScore(this) || "offline",
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -40,7 +40,7 @@ export class BlockParty extends Component {
       currentLevel: 1,
       nextLevel: 1,
     });
-    ObjectCreator.createPartySquare(this.state);
+    createPartySquare(this.state);
   }
 
   updateGame() {
@@ -66,10 +66,7 @@ export class BlockParty extends Component {
   }
 
   pipeIntervals(){
-    return function(){
-      ObjectCreator.createPartyPipe(this.state);
-      ObjectCreator.createPipeEntry(this.state);
-    }.bind(this);
+    return function(){createPipes(this.state);}.bind(this);
   }
 
   manageIntervals() {
