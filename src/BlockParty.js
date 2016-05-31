@@ -16,6 +16,7 @@ export class BlockParty extends Component {
       partySquare: [],
       topScore: localStorage.topscore || 0,
       globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
+      globalScoreBoard: Scoreboard.globalTopScores(firebaseDB, this),
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,

@@ -20,6 +20,7 @@ function updateUserTopScore(game) {
 
 function updateGlobalTopScore(game, firebase) {
   globalTopScore(firebase, game);
+  globalTopScores(firebase, game);
   if(game.state.currentScore > game.state.globalTopScore){
     firebase.set({
       topScore: game.state.topScore
@@ -37,5 +38,17 @@ export function globalTopScore(firebase, game) {
       globalTopScore: topScore
     })
     return topScore
+  });
+};
+
+export function globalTopScores(firebase, game) {
+  let topScoreBoard = null;
+
+  firebase.once('value').then(function(snapshot){
+    topScoreBoard = snapshot.val()
+    game.setState({
+      globalScoreBoard: topScoreBoard
+    })
+    return topScoreBoard
   });
 };
