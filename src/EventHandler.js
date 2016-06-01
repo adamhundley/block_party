@@ -8,6 +8,15 @@ export default class EventHandler {
     window.addEventListener('resize',  this.handleResize.bind(this, game));
     window.addEventListener('click',  this.handleClick.bind(this, game));
     window.addEventListener('touchstart',  this.handleTouch.bind(this, game));
+    window.addEventListener('orientationchange', this.handleOrientationChange.bind(this, game));
+  }
+
+  handleOrientationChange(game, e) {
+    if(screen.orientation.angle === 0){
+      game.pauseGame();
+    } else if (screen.orientation.angle === 90) {
+      game.pauseGame();
+    }
   }
 
   handleKeys(game, e) {
