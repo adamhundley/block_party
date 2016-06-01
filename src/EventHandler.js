@@ -8,7 +8,7 @@ export default class EventHandler {
     window.addEventListener('resize',  this.handleResize.bind(this, game));
     window.addEventListener('click',  this.handleClick.bind(this, game));
     window.addEventListener('touchstart',  this.handleTouch.bind(this, game));
-    window.addEventListener('orientationchange', this.handleOrientationChange.bind(this, game));
+    window.onorientationchange = this.handleOrientationChange.bind(this, game);
   }
 
   handleOrientationChange(game, e) {
