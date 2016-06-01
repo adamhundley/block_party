@@ -4,6 +4,15 @@ export function GameRecap({ game }) {
   let message;
   let endgame;
 
+  if(game.paused && game.mobile) {
+    endgame = (
+      <div className="endgame">
+        <h1>Game Paused</h1>
+        <h1>Rotate phone to unpause</h1>
+      </div>
+    );
+  }
+
   if(!game.inGame) {
     if(game.currentScore >= parseInt(game.topScore)){
       message = `WOW! NEW TOP SCORE! ${game.currentScore}`;

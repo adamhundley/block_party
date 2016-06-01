@@ -12,12 +12,23 @@ export function GameInfo({ game }) {
     </div>
   );
 
-  const controls = (
-    <span className="controls fade-out" >
-      Use [←][↑][↓][→] to MOVE<br/>
+  let controls;
+
+  if(game.mobile) {
+    controls = (
+      <span className="controls" >
+        Tap the right side to MOVE<br/>
+        Tap the left side to CHANGE COLORS
+      </span>
+    );
+  } else {
+    controls = (
+      <span className="controls" >
+        Use [←][↑][↓][→] to MOVE<br/>
       Use [A][S][D][F] to CHANGE COLORS
-    </span>
-  );
+      </span>
+    );
+  }
 
   return (
     <div className='gameInfo'>

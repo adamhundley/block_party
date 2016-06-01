@@ -16,12 +16,21 @@ export class BlockParty extends Component {
       partySquare: [],
       topScore: localStorage.topscore || 0,
       globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
+      mobile: this.isMobile(),
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
         ratio: window.devicePixelRatio || 1
       }
     };
+  }
+
+  isMobile() {
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      return true;
+    } else {
+      return false
+    }
   }
 
   componentDidMount() {
