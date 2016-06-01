@@ -12,6 +12,7 @@ export default class EventHandler {
   }
 
   handleOrientationChange(game, e) {
+    alert(e.orientation)
     game.pauseGame();
   }
 
