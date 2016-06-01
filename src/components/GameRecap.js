@@ -8,7 +8,7 @@ export function GameRecap({ game }) {
     endgame = (
       <div className="endgame">
         <h1>Game Paused</h1>
-        <h1>Rotate phone to unpause</h1>
+        <h1>Rotate phone to landscape to play</h1>
       </div>
     );
   }

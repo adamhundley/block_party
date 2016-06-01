@@ -12,8 +12,11 @@ export default class EventHandler {
   }
 
   handleOrientationChange(game, e) {
-    alert(window.orientation)
-    game.pauseGame();
+    if(window.orientation === 0 || window.orientation === -0){
+      game.pauseGame();
+    } else {
+      game.pauseGame();
+    }
   }
 
   handleKeys(game, e) {
