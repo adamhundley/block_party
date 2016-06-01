@@ -12,13 +12,7 @@ export default class EventHandler {
   }
 
   handleOrientationChange(game, e) {
-    let orientation = window.screen.orientation.type
-    alert("Change" + orientation)
-    if(orientation === "portrait-primary" || orientation === "portrait-secondary"){
-      game.pauseGame();
-    } else {
-      game.pauseGame();
-    }
+    game.pauseGame();
   }
 
   handleKeys(game, e) {
