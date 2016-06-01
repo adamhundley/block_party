@@ -12,7 +12,7 @@ export default class EventHandler {
   }
 
   handleOrientationChange(game, e) {
-    alert("Change" + screen.orientation.type)
+    alert("Change" + window.screen.orientation.type)
     // if(screen.orientation.type === "portrait-primary" || screen.orientation.type === "portrait-secondary"){
     //   game.pauseGame();
     // } else {
