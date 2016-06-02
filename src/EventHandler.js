@@ -12,10 +12,15 @@ export default class EventHandler {
   }
 
   handleOrientationChange(game, e) {
-    if(screen.orientation.angle === 0){
+    if(game.state.paused && !game.state.currentScore){
+      game.setState({
+        paused: false
+      })
+      game.startGame();
+      requestAnimationFrame(() => {game.updateGame();})
+    } else {
       game.pauseGame();
-    } else if (screen.orientation.angle === 90) {
-      game.pauseGame();
+      // document.querySelector('canvas').style.display="none"
     }
   }
 

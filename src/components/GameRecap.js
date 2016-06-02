@@ -8,12 +8,23 @@ export function GameRecap({ game }) {
     endgame = (
       <div className="endgame">
         <h1>Game Paused</h1>
-        <h1>Rotate phone to unpause</h1>
+        <h1>Rotate phone to play</h1>
+        <img className="rotate" src={"http://www.solec.org/wp-content/uploads/2015/02/icon-horizontal.png"}></img>
       </div>
     );
   }
 
-  if(!game.inGame) {
+  if(!game.inGame && game.screen.orientation === 0){
+    endgame = (
+      <div className="endgame">
+        <h1>Welcome to BlocParty</h1>
+        <h3>Please Rotate your phone to start the game!</h3>
+        <img className="rotate" src={"http://www.solec.org/wp-content/uploads/2015/02/icon-horizontal.png"}></img>
+      </div>
+    );
+  }
+
+  if(!game.inGame && game.screen.orientation !== 0) {
     if(game.currentScore >= parseInt(game.topScore)){
       message = `WOW! NEW TOP SCORE! ${game.currentScore}`;
     } else {
