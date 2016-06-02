@@ -9,18 +9,23 @@ export default class EventHandler {
     window.addEventListener('click',  this.handleClick.bind(this, game));
     window.addEventListener('touchstart',  this.handleTouch.bind(this, game));
     window.addEventListener('orientationchange', this.handleOrientationChange.bind(this, game));
+    window.addEventListener('orientationchange', this.handleResize.bind(this, game));
   }
 
   handleOrientationChange(game, e) {
     if(game.state.paused && !game.state.currentScore){
       game.setState({
-        paused: false
+        paused: false,
+        landscape: game.landscape()
       })
       game.startGame();
       requestAnimationFrame(() => {game.updateGame();})
-    } else {
+    } else if (!game.state.paused) {
+      document.querySelector('canvas').style.display="none"
       game.pauseGame();
-      // document.querySelector('canvas').style.display="none"
+    } else if (game.state.paused) {
+      document.querySelector('canvas').style.display=""
+      game.pauseGame();
     }
   }
 

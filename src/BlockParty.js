@@ -17,6 +17,7 @@ export class BlockParty extends Component {
       topScore: localStorage.topscore || 0,
       globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
       mobile: this.isMobile(),
+      landscape: this.landscape(),
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -34,6 +35,14 @@ export class BlockParty extends Component {
     }
   }
 
+  landscape() {
+    if(window.orientation === 0) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   componentDidMount() {
     new EventHandler(this);
     this.setState({context: this.refs.canvas.getContext('2d')});
@@ -43,8 +52,8 @@ export class BlockParty extends Component {
     }
   }
 
-  startGame(){
-    if(this.state.screen.orientation === 0) {
+  startGame() {
+    if(!this.state.landscape && this.state.mobile) {
       this.setState({
         paused: true,
       })

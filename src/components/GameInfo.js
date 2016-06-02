@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 export function GameInfo({ game }) {
+  
   const currentScore = (
     <span className="score current-score" >Score: {game.currentScore}</span>
   );
