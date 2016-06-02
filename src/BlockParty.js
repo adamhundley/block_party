@@ -20,7 +20,8 @@ export class BlockParty extends Component {
       screen: {
         width: window.innerWidth,
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1
+        ratio: window.devicePixelRatio || 1,
+        orientation: window.orientation,
       }
     };
   }
@@ -37,20 +38,28 @@ export class BlockParty extends Component {
     new EventHandler(this);
     this.setState({context: this.refs.canvas.getContext('2d')});
     this.startGame();
-    requestAnimationFrame(() => {this.updateGame();});
+    if(!this.state.paused){
+      requestAnimationFrame(() => {this.updateGame();});
+    }
   }
 
   startGame(){
-    this.setState({
-      inGame: true,
-      paused: false,
-      partyPipes: [],
-      pipeEntries: [],
-      currentScore: 0,
-      currentLevel: 1,
-      nextLevel: 1,
-    });
-    ObjectCreator.createPartySquare(this.state);
+    if(this.state.screen.orientation === 0) {
+      this.setState({
+        paused: true,
+      })
+    } else {
+      this.setState({
+        inGame: true,
+        paused: false,
+        partyPipes: [],
+        pipeEntries: [],
+        currentScore: 0,
+        currentLevel: 1,
+        nextLevel: 1,
+      });
+      ObjectCreator.createPartySquare(this.state);
+    }
   }
 
   updateGame() {

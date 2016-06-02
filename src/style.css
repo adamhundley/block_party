@@ -2,6 +2,13 @@ body {
   padding: 0;
   margin: 0;
   font-weight: 200;
+  font-family: monospace;
+  background-color: #2c3e50;
+  color: #ffffff;
+}
+
+.disappear {
+  display: none
 }
 
 .default {
@@ -88,6 +95,10 @@ canvas {
   top: 15px;
   z-index: 1;
   font-size: 20px;
+}
+
+.rotate {
+
 }
 
 .local {
