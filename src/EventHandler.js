@@ -53,9 +53,10 @@ export default class EventHandler {
     if(game.state.inGame){
       e.preventDefault();
       let touchPoints = e.changedTouches;
-      if(touchPoints[touchPoints.length - 1].pageX < game.state.screen.width / 2){
-        game.state.partySquare[0].respondToTouch('color', game.state);
-      } else if (touchPoints[touchPoints.length - 1].pageX > game.state.screen.width / 2) {
+      let y = touchPoints[touchPoints.length - 1].pageY
+      if(touchPoints[touchPoints.length - 1].pageX < game.state.screen.height / 4){
+        game.state.partySquare[0].respondToTouch('color', game.state, y);
+      } else if (touchPoints[touchPoints.length - 1].pageX > game.state.screen.height / 4) {
         game.state.partySquare[0].respondToTouch('jetPack', game.state);
       }
     }

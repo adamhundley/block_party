@@ -7,27 +7,6 @@ body {
   color: #ffffff;
 }
 
-#colorBox1 {
-  height: 140px;
-  width: 140px;
-  background-color: red;
-}
-#colorBox2 {
-  height: 140px;
-  width: 140px;
-  background-color: white;
-}
-#colorBox3 {
-  height: 140px;
-  width: 140px;
-  background-color: yellow;
-}
-#colorBox4 {
-  height: 140px;
-  width: 140px;
-  background-color: blue;
-}
-
 .default {
   font-family: monospace;
   background-color: #2c3e50;
