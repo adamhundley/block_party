@@ -53,7 +53,6 @@ export default class EventHandler {
     if(game.state.inGame){
       e.preventDefault();
       let touchPoints = e.changedTouches;
-
       if(touchPoints[touchPoints.length - 1].pageX < game.state.screen.width / 2){
         game.state.partySquare[0].respondToTouch('color', game.state);
       } else if (touchPoints[touchPoints.length - 1].pageX > game.state.screen.width / 2) {

@@ -2,6 +2,7 @@ import { firebaseDB } from './firebase';
 import React, { Component } from 'react';
 import { GameRecap } from './components/GameRecap';
 import { GameInfo } from './components/GameInfo';
+import { ColorBoxes } from './components/ColorBoxes';
 import EventHandler from './EventHandler';
 import * as ObjectCreator from './ObjectCreator';
 import * as ObjectUpdater from './ObjectUpdater';
@@ -19,7 +20,7 @@ export class BlockParty extends Component {
       mobile: this.isMobile(),
       landscape: this.landscape(),
       screen: {
-        width: window.innerWidth,
+        width: this.width(),
         height: window.innerHeight,
         ratio: window.devicePixelRatio || 1,
         orientation: window.orientation,
@@ -27,6 +28,13 @@ export class BlockParty extends Component {
     };
   }
 
+  width() {
+    if(this.isMobile()) {
+      return window.innerWidth - (window.innerHeight / 4)
+    } else {
+      return window.innerWidth
+    }
+  }
   isMobile() {
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
       return true;
@@ -109,9 +117,10 @@ export class BlockParty extends Component {
   render() {
     return (
       <div>
+        <ColorBoxes game={this.state} />
         <GameRecap game={this.state} />
         <GameInfo game={this.state} />
-        <canvas moz-opaque ref="canvas"
+        <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
         />
