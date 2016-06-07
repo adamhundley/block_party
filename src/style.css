@@ -7,10 +7,6 @@ body {
   color: #ffffff;
 }
 
-.disappear {
-  display: none
-}
-
 .default {
   font-family: monospace;
   background-color: #2c3e50;

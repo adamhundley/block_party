@@ -52,9 +52,9 @@ export default class PartySquare {
     }
   }
 
-  respondToTouch(action, state) {
+  respondToTouch(action, state, y) {
     if(action === 'color'){
-      state.colorManager.toggleSquareColor(state, this);
+      state.colorManager.toggleSquareColor(state, this, y);
     } else if (action === 'jetPack') {
       Motion.mobileJetPack(this);
     }
