@@ -22,9 +22,11 @@ export default class EventHandler {
       requestAnimationFrame(() => {game.updateGame();})
     } else if (!game.state.paused) {
       document.querySelector('canvas').style.display="none"
+      document.getElementsByClassName('colorBoxes')[0].style.display="none"
       game.pauseGame();
     } else if (game.state.paused) {
       document.querySelector('canvas').style.display=""
+      document.getElementsByClassName('colorBoxes')[0].style.display=""
       game.pauseGame();
     }
   }
@@ -54,6 +56,7 @@ export default class EventHandler {
       e.preventDefault();
       let touchPoints = e.changedTouches;
       let y = touchPoints[touchPoints.length - 1].pageY
+      
       if(touchPoints[touchPoints.length - 1].pageX < game.state.screen.height / 4){
         game.state.partySquare[0].respondToTouch('color', game.state, y);
       } else if (touchPoints[touchPoints.length - 1].pageX > game.state.screen.height / 4) {

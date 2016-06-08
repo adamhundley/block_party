@@ -49,7 +49,7 @@ export function ColorBoxes({ game }) {
 
   let boxes;
 
-  if(game.mobile) {
+  if(game.mobile && game.landscape) {
     boxes = (
       <div className='colorBoxes'>
         <div id='colorBox1' style={colorBox1}></div>
