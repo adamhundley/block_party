@@ -17,11 +17,18 @@ export default class ColorManager{
     }
   }
 
-  toggleSquareColor(state, square) {
+  toggleSquareColor(state, square, y) {
     state.currentScore += 1;
+    if (y < state.screen.height / 4) {
+      square.color = this.theme[0];
+    } else if (y > state.screen.height/4 && y < state.screen.height / 2) {
+      square.color = this.theme[1];
+    } else if (y > state.screen.height/2 && y < state.screen.height / 4 + state.screen.height / 2) {
+      square.color = this.theme[2];
+    } else if (y > state.screen.height / 4 + state.screen.height / 2) {
+      square.color = this.theme[3];
+    }
 
-    let newColorIndex = this.theme.indexOf(square.color) + 1;
-    square.color = this.theme[newColorIndex % 4];
   }
 
   colorSample(rejectColor) {

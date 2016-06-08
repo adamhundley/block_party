@@ -2,6 +2,7 @@ import { firebaseDB } from './firebase';
 import React, { Component } from 'react';
 import { GameRecap } from './components/GameRecap';
 import { GameInfo } from './components/GameInfo';
+import { ColorBoxes } from './components/ColorBoxes';
 import EventHandler from './EventHandler';
 import * as ObjectCreator from './ObjectCreator';
 import * as ObjectUpdater from './ObjectUpdater';
@@ -17,32 +18,67 @@ export class BlockParty extends Component {
       topScore: localStorage.topscore || 0,
       globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
       globalScoreBoard: Scoreboard.globalTopScores(firebaseDB, this),
+      mobile: this.isMobile(),
+      landscape: this.landscape(),
       screen: {
-        width: window.innerWidth,
+        width: this.width(),
         height: window.innerHeight,
-        ratio: window.devicePixelRatio || 1
+        ratio: window.devicePixelRatio || 1,
+        orientation: window.orientation,
       }
     };
+  }
+
+  width() {
+    if(this.isMobile()) {
+      return window.innerWidth - (window.innerHeight / 4)
+    } else {
+      return window.innerWidth
+    }
+  }
+
+  isMobile() {
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  landscape() {
+    if(window.orientation === 0) {
+      return false
+    } else {
+      return true
+    }
   }
 
   componentDidMount() {
     new EventHandler(this);
     this.setState({context: this.refs.canvas.getContext('2d')});
     this.startGame();
-    requestAnimationFrame(() => {this.updateGame();});
+    if(!this.state.paused){
+      requestAnimationFrame(() => {this.updateGame();});
+    }
   }
 
-  startGame(){
-    this.setState({
-      inGame: true,
-      paused: false,
-      partyPipes: [],
-      pipeEntries: [],
-      currentScore: 0,
-      currentLevel: 1,
-      nextLevel: 1,
-    });
-    ObjectCreator.createPartySquare(this.state);
+  startGame() {
+    if(!this.state.landscape && this.state.mobile) {
+      this.setState({
+        paused: true,
+      })
+    } else {
+      this.setState({
+        inGame: true,
+        paused: false,
+        partyPipes: [],
+        pipeEntries: [],
+        currentScore: 0,
+        currentLevel: 1,
+        nextLevel: 1,
+      });
+      ObjectCreator.createPartySquare(this.state);
+    }
   }
 
   updateGame() {
@@ -83,9 +119,10 @@ export class BlockParty extends Component {
   render() {
     return (
       <div>
+        <ColorBoxes game={this.state} />
         <GameRecap game={this.state} />
         <GameInfo game={this.state} />
-        <canvas moz-opaque ref="canvas"
+        <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
           height={this.state.screen.height * this.state.screen.ratio}
         />

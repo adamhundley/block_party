@@ -1,7 +1,17 @@
 import IntervalManager from './IntervalManager';
 
-export function action(game){
+export function action(game) {
   game.setState({paused: !game.state.paused});
+  pauseInterval(game);
+}
+
+export function pause(game) {
+  game.setState({paused: true});
+  pauseInterval(game);
+}
+
+export function unPause(game) {
+  game.setState({paused: false});
   pauseInterval(game);
 }
 
