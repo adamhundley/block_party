@@ -22,26 +22,34 @@ export function ColorBoxes({ game }) {
       return ['#ff0099', '#83f52c', '#18CAE6', '#f3f315'];
     }
   }
-
+  
   let colorBox1 = {
+    position: 'relative',
+    zIndex: 1,
     width: width(),
     height: height(),
     background: colors(game)[0],
   }
 
   let colorBox2 = {
+    position: 'relative',
+    zIndex: 1,
     width: width(),
     height: height(),
     background: colors(game)[1],
   }
 
   let colorBox3 = {
+    position: 'relative',
+    zIndex: 1,
     width: width(),
     height: height(),
     background: colors(game)[2],
   }
 
   let colorBox4 = {
+    position: 'relative',
+    zIndex: 1,
     width: width(),
     height: height(),
     background: colors(game)[3],
