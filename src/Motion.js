@@ -1,9 +1,9 @@
 export function managePerimeterCollision(state, obj){
   if(atLowerBound(state.screen, obj)){
-    state.currentScore += 10;
+    if(state.inGame){state.currentScore += 10}
     obj.gravity = false;
   } else if (atUpperBound(obj)) {
-    state.currentScore += 10;
+    if(state.inGame){state.currentScore += 10}
     obj.gravity = true;
   }
 }

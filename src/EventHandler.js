@@ -40,7 +40,7 @@ export default class EventHandler {
       game.pauseGame();
     }
 
-    if(!game.state.inGame && e.keyCode === 13){
+    if(e.keyCode === 13 && !game.state.inGame && !game.state.newTopScore){
       game.startGame();
     }
   }
@@ -48,6 +48,8 @@ export default class EventHandler {
   handleClick(game, e) {
     if(e.toElement.className === "startgame") {
       game.startGame();
+    } else if (e.toElement.className === "playagain") {
+      document.getElementById("nameForm").submit()
     }
   }
 
@@ -56,7 +58,7 @@ export default class EventHandler {
       e.preventDefault();
       let touchPoints = e.changedTouches;
       let y = touchPoints[touchPoints.length - 1].pageY
-      
+
       if(touchPoints[touchPoints.length - 1].pageX < game.state.screen.height / 4){
         game.state.partySquare[0].respondToTouch('color', game.state, y);
       } else if (touchPoints[touchPoints.length - 1].pageX > game.state.screen.height / 4) {

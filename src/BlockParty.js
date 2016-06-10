@@ -1,8 +1,10 @@
 import { firebaseDB } from './firebase';
 import React, { Component } from 'react';
-import { GameRecap } from './components/GameRecap';
+import { MobilePause } from './components/MobilePause';
 import { GameInfo } from './components/GameInfo';
 import { ColorBoxes } from './components/ColorBoxes';
+import { NewTopScore } from './components/NewTopScore';
+import { GameOverScoreboard } from './components/GameOverScoreboard';
 import EventHandler from './EventHandler';
 import * as ObjectCreator from './ObjectCreator';
 import * as ObjectUpdater from './ObjectUpdater';
@@ -16,10 +18,10 @@ export class BlockParty extends Component {
     this.state = {
       partySquare: [],
       topScore: localStorage.topscore || 0,
-      globalTopScore: Scoreboard.globalTopScore(firebaseDB, this),
-      globalScoreBoard: Scoreboard.globalTopScores(firebaseDB, this),
+      globalScoreBoard: Scoreboard.globalScoreboard(firebaseDB, this),
       mobile: this.isMobile(),
       landscape: this.landscape(),
+      newTopScore: false,
       screen: {
         width: this.width(),
         height: window.innerHeight,
@@ -64,9 +66,7 @@ export class BlockParty extends Component {
 
   startGame() {
     if(!this.state.landscape && this.state.mobile) {
-      this.setState({
-        paused: true,
-      })
+      this.setState({paused: true})
     } else {
       this.setState({
         inGame: true,
@@ -120,7 +120,9 @@ export class BlockParty extends Component {
     return (
       <div>
         <ColorBoxes game={this.state} />
-        <GameRecap game={this.state} />
+        <NewTopScore game={this} />
+        <MobilePause game={this.state} />
+        <GameOverScoreboard game={this.state} />
         <GameInfo game={this.state} />
         <canvas ref="canvas"
           width={this.state.screen.width * this.state.screen.ratio}
