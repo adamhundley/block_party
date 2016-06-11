@@ -5,7 +5,7 @@ export default class ColorManager{
   }
 
   changeSquareColor(state, square, key){
-    state.currentScore += 1;
+    if(state.inGame){state.currentScore += 1}
     if (key === 65) {
       square.color = this.theme[0];
     } else if (key === 83) {
@@ -18,7 +18,7 @@ export default class ColorManager{
   }
 
   toggleSquareColor(state, square, y) {
-    state.currentScore += 1;
+    if(state.inGame){state.currentScore += 1}
     if (y < state.screen.height / 4) {
       square.color = this.theme[0];
     } else if (y > state.screen.height/4 && y < state.screen.height / 2) {

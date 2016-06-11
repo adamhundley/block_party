@@ -13,6 +13,13 @@ body {
   color: #ffffff;
 }
 
+input {
+  background-color: transparent;
+  z-index: 1;
+  font-size: 40px;
+  outline: inherit;
+}
+
 .default button {
   border: 2px solid #ffffff;
   color: #ffffff;
@@ -23,6 +30,11 @@ body {
   color: #000000;
 }
 
+.default input, select, textarea{
+  color: #ffffff;
+  outline-color: #ffffff;
+}
+
 .moma {
   font-family: sans-serif;;
   background-color: #ffffff;
@@ -31,6 +43,11 @@ body {
 
 .moma button {
   border: 2px solid #000000;
+}
+
+.moma input, select, textarea{
+  color: #000000;
+  outline-color: #000000;
 }
 
 .retro {
@@ -49,6 +66,11 @@ body {
   color: #000000;
 }
 
+.retro input, select, textarea{
+  color: lime;
+  outline-color: lime;
+}
+
 .tron {
   font-family: monospace;
   background-color: #000000;
@@ -63,6 +85,11 @@ body {
 .tron button:hover{
   background-color: #18CAE6;
   color: #000000;
+}
+
+.tron input, select, textarea{
+  color: #18CAE6;
+  outline-color: #18CAE6;
 }
 
 canvas {
@@ -84,7 +111,6 @@ canvas {
   right: 20px;
 }
 
-
 .score {
   display: block;
   position: absolute;
@@ -93,13 +119,10 @@ canvas {
   font-size: 20px;
 }
 
-.rotate {
-
-}
-
 .local {
   top: 40px
 }
+
 .controls {
   display: block;
   position: absolute;
@@ -122,7 +145,7 @@ canvas {
   text-align: center;
 }
 
-button{
+button {
   background-color: transparent;
   font-size: 20px;
   padding: 10px 20px;
@@ -132,10 +155,24 @@ button{
   z-index: 1;
 }
 
+
+.submit {
+  display: none;
+}
+
+.yourScore {
+  text-decoration: underline;
+}
+
 @-webkit-keyframes fade-out {
 0% { opacity: 1;}
 85% {opacity: 1;}
 100% {opacity: 0;}
+}
+
+.highScore {
+  background-color: transparent;
+  z-index: 1;
 }
 
 .fade-out {
