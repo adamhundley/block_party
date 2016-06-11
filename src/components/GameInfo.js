@@ -8,8 +8,8 @@ export function GameInfo({ game }) {
 
   const topScore = (
     <div>
-      <span className="score top-score global">Global Top Score: {game.globalTopScore}</span>
       <span className="score top-score local" >My Top Score: {game.topScore}</span><br/>
+      <span className="score top-score global">Global Top Score: {game.globalTopScore}</span>
     </div>
   );
 
