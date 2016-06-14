@@ -22,7 +22,7 @@ export function GameOverScoreboard({ game }) {
     ${game.globalScoreBoard.topScores.fifth.score}`;
   }
 
-  if(!game.inGame && !game.newTopScore) {
+  if(!game.inGame && !game.newTopScore && game.landscape) {
     if(game.currentScore >= parseInt(game.topScore)){
       message = `WOW! You beat your old top score! ${game.currentScore}`;
       scoreboard();
