@@ -48,7 +48,7 @@ export class BlockParty extends Component {
   }
 
   landscape() {
-    if(window.orientation === 0) {
+    if(window.orientation === 0 || window.orientation === 180) {
       return false
     } else {
       return true
