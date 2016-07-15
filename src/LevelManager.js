@@ -11,10 +11,6 @@ import {levelSix} from './levels/_levelSix';
 
 export default class LevelManager {
   createObject(state, objectType){
-    return this.manageObjects(state, objectType);
-  }
-
-  manageObjects(state, objectType){
     return this.attributes(state, this.currentLevel(state), objectType);
   }
 
@@ -44,25 +40,27 @@ export default class LevelManager {
     new IntervalManager().setInterval(pipeIntervals, state);
   }
 
+
   currentLevel(state){
-    if(!state.currentScore || state.currentScore < 750){
+    let levelInfo = [
+      {levelFunc: levelOne, threshold: 750, level: 1},
+      {levelFunc: levelTwo, threshold: 2000, level: 2},
+      {levelFunc: levelThree, threshold: 5000, level: 3},
+      {levelFunc: levelFour, threshold: 10000, level: 4},
+      {levelFunc: levelFive, threshold: 15000, level: 5},
+      {levelFunc: levelSix, threshold: 1000000, level: 6}
+    ];
+
+    if(!state.currentScore){
       state.currentLevel = 1;
       return levelOne;
-    } else if (state.currentScore < 2000) {
-      state.currentLevel = 2;
-      return levelTwo;
-    } else if (state.currentScore < 5000) {
-      state.currentLevel = 3;
-      return levelThree;
-    } else if (state.currentScore < 10000) {
-      state.currentLevel = 4;
-      return levelFour;
-    } else if (state.currentScore < 15000) {
-      state.currentLevel = 5;
-      return levelFive;
     } else {
-      state.currentLevel = 6;
-      return levelSix;
-    }
+      for (var i = 0; i < levelInfo.length; i++) {
+        if(state.currentScore < levelInfo[i].threshold) {
+          state.currentLevel = levelInfo[i].level;
+          return levelInfo[i].levelFunc;
+        }
+      }
+    };
   }
 }
