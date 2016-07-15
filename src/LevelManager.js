@@ -48,19 +48,22 @@ export default class LevelManager {
       {levelFunc: levelThree, threshold: 5000, level: 3},
       {levelFunc: levelFour, threshold: 10000, level: 4},
       {levelFunc: levelFive, threshold: 15000, level: 5},
-      {levelFunc: levelSix, threshold: 1000000, level: 6}
+      {levelFunc: levelSix, threshold: 20000, level: 6},
     ];
 
     if(!state.currentScore){
-      state.currentLevel = 1;
-      return levelOne;
+      state.currentLevel = levelInfo[0].level;
+      return levelInfo[0].levelFunc;
     } else {
       for (var i = 0; i < levelInfo.length; i++) {
-        if(state.currentScore < levelInfo[i].threshold) {
+        if(state.currentScore <= levelInfo[i].threshold) {
           state.currentLevel = levelInfo[i].level;
           return levelInfo[i].levelFunc;
         }
       }
+
+      state.currentLevel = levelInfo[levelInfo.length - 1].level;
+      return levelInfo[levelInfo.length - 1].levelFunc;
     };
   }
 }
