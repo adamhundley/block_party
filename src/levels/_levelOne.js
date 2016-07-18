@@ -1,19 +1,18 @@
-import { getRandomInt } from '../_helpers';
-import ColorManager from '../ColorManager';
+import { getRandomInt, colorSample } from '../_helpers';
 
 export function levelOne(state){
-  if(!state.colorManager || state.colorManager.level !== 1){
-    state.colorManager = new ColorManager('default', 1);
-    document.body.className='default';
-  }
+  let colors = ['#0033FF', '#00FFFF', '#FF00FF', '#9D00FF'];
+
+  document.body.className='default';
+
+  state.colors = colors;
 
   return {
     pipe: {
       height: state.screen.height,
       width: getRandomInt(state.screen.width/200, state.screen.width/12),
       x: state.screen.width,
-      y: 0,
-      color: state.colorManager.colorSample(),
+      color: colorSample(colors),
       speed: 7.5,
       rate: 3500
     },
@@ -21,6 +20,7 @@ export function levelOne(state){
       inMotion: false,
       minHeight: 2,
       maxHeight: 0.75
-    }
+    },
+    colors: colors
   };
 }

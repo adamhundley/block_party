@@ -1,4 +1,4 @@
-import { colorsSample, getRandomInt } from './_helpers';
+import { colorSample, getRandomInt } from './_helpers';
 import * as Motion from './Motion';
 
 export default class PipeEntry {
@@ -11,7 +11,7 @@ export default class PipeEntry {
     this.x = state.screen.width;
     this.y = getRandomInt(this.margin, state.screen.height - (this.margin + this.height));
     this.width = this.partyPipe.width;
-    this.color = state.colorManager.colorSample(this.partyPipe.color);
+    this.color = colorSample(level.colors, this.partyPipe.color);
     this.speed = this.partyPipe.speed;
     this.inMotion = level.entry.inMotion;
     this.gravity = level.entry.gravity;

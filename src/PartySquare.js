@@ -1,5 +1,6 @@
-import ColorManager from './ColorManager';
+import * as ColorChanger from './ColorChanger';
 import PipeCleaner from './PipeCleaner';
+import { colorSample } from './_helpers';
 import * as Motion from './Motion';
 
 export default class PartySquare {
@@ -16,7 +17,7 @@ export default class PartySquare {
     this.velocity = this.y/50;
     this.points = 0;
     this.currentPipeIndex = 0;
-    this.color = state.colorManager.colorSample();
+    this.color = colorSample(level.colors);
   }
 
   render(state) {
@@ -48,13 +49,13 @@ export default class PartySquare {
     } else if(this.lateralMovementKeys(key)) {
       Motion.lateralJetPack(this, state, key);
     } else if(this.colorChangeKeys(key)){
-      state.colorManager.changeSquareColor(state, this, key);
+      ColorChanger.changeSquareColor(state, this, key);
     }
   }
 
   respondToTouch(action, state, y) {
     if(action === 'color'){
-      state.colorManager.toggleSquareColor(state, this, y);
+      ColorChanger.toggleSquareColor(state, this, y);
     } else if (action === 'jetPack') {
       Motion.mobileJetPack(this);
     }

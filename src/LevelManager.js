@@ -40,7 +40,6 @@ export default class LevelManager {
     new IntervalManager().setInterval(pipeIntervals, state);
   }
 
-
   currentLevel(state){
     let levelInfo = [
       {levelFunc: levelOne, threshold: 750, level: 1},

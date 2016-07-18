@@ -1,19 +1,18 @@
-import { colorsSample, getRandomInt } from '../_helpers';
-import ColorManager from '../ColorManager';
+import { colorSample, getRandomInt } from '../_helpers';
 
 export function levelFive(state){
-  if(state.colorManager.level !== 5){
-    state.colorManager = new ColorManager('moma', 5);
-    document.body.className='moma';
-  }
+  let colors = ['orange', 'yellow', 'lime', 'red'];
+
+  document.body.className='moma';
+
+  state.colors = colors;
 
   return {
     pipe: {
       height: state.screen.height,
       width: getRandomInt(state.screen.width/10, state.screen.width/5),
       x: state.screen.width,
-      y: 0,
-      color: state.colorManager.colorSample(),
+      color: colorSample(colors),
       speed: 7.5,
       rate: 2000
     },
@@ -24,6 +23,7 @@ export function levelFive(state){
       acceleration: 1,
       minHeight: 2,
       maxHeight: 0.75
-    }
+    },
+    colors: colors
   };
 }

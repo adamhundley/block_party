@@ -1,10 +1,12 @@
+import { colorSample } from './_helpers';
+
 export default class PartyPipe {
   constructor(attributes) {
     this.height = attributes.pipe.height;
     this.width = attributes.pipe.width;
     this.x = attributes.pipe.x;
-    this.y = attributes.pipe.y;
-    this.color = attributes.pipe.color;
+    this.y = 0;
+    this.color = colorSample(attributes.colors);
     this.speed = attributes.pipe.speed;
   }
 

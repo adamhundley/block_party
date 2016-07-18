@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ColorManager from '../ColorManager';
 
 export function ColorBoxes({ game }) {
 
@@ -22,7 +21,7 @@ export function ColorBoxes({ game }) {
       return ['#ff0099', '#83f52c', '#18CAE6', '#f3f315'];
     }
   }
-  
+
   let colorBox1 = {
     position: 'relative',
     zIndex: 1,
