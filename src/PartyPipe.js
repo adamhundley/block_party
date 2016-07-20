@@ -6,7 +6,7 @@ export default class PartyPipe {
     this.width = attributes.pipe.width;
     this.x = attributes.pipe.x;
     this.y = 0;
-    this.color = colorSample(attributes.colors);
+    this.color = attributes.pipe.color;
     this.speed = attributes.pipe.speed;
   }
 
